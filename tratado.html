@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tratamiento de datos - SOAT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f5f7fb;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .soat-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e6e6e6;
+      height: 80px;
+      display: flex;
+      align-items: center;
+    }
+    .soat-header-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .soat-logo {
+      display: flex;
+      align-items: center;
+      margin-left: -640px;
+    }
+    .soat-logo img {
+      max-height: 220px;
+      width: auto;
+      object-fit: contain;
+      margin-left: -100px;
+    }
+
+    /* LAYOUT GENERAL */
+    .layout {
+      max-width: 1200px;
+      margin: 28px auto 40px;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 40px;
+      flex: 1;
+    }
+
+    /* PASOS LATERALES */
+    .pasos-lateral {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .paso-card {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 22px 16px;
+      text-align: center;
+    }
+
+    .paso-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ecf3ff;
+      border: 2px solid #2563eb;
+      position: relative;
+    }
+
+    /* Icono documento */
+    .icon-doc {
+      width: 40px;
+      height: 52px;
+      border-radius: 4px;
+      border: 2px solid #2563eb;
+      background: #ffffff;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .icon-doc::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 12px;
+      width: 26px;
+      height: 3px;
+      border-radius: 999px;
+      background: #d1d5db;
+    }
+    .icon-doc::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 24px;
+      width: 18px;
+      height: 3px;
+      border-radius: 999px;
+      background: #d1d5db;
+    }
+
+    /* Icono usuario */
+    .icon-user {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #9ca3af;
+      position: relative;
+      box-sizing: border-box;
+    }
+    .icon-user::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid #9ca3af;
+      background: #ffffff;
+    }
+    .icon-user::after {
+      content: "";
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 10px;
+      border-radius: 999px 999px 4px 4px;
+      border: 2px solid #9ca3af;
+      border-top-color: transparent;
+      background: #ffffff;
+    }
+
+    .paso-icon.inactivo {
+      border-color: #d1d5db;
+      background: #f3f4f6;
+    }
+
+    .paso-titulo {
+      font-size: 15px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .paso-titulo.inactivo {
+      color: #9ca3af;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .contenido {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .titulo-pagina {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2933;
+      margin-bottom: 4px;
+    }
+
+    .subtitulo-pagina {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+
+    .card-tratado {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-header-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #e5efff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-header-icon-inner {
+      width: 16px;
+      height: 12px;
+      border-radius: 2px;
+      border: 2px solid #2563eb;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .card-header-icon-inner::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 8px;
+      height: 2px;
+      border-radius: 999px;
+      background: #2563eb;
+    }
+
+    .card-header-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .card-scroll {
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.5;
+      padding-right: 8px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 10px;
+    }
+
+    .card-scroll a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .card-scroll a:hover {
+      text-decoration: underline;
+    }
+
+    .card-check {
+      margin-top: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: #374151;
+    }
+    .card-check input {
+      margin-top: 2px;
+    }
+
+    .card-info {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .acciones {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn-secundario {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #374151;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn-primario {
+      padding: 10px 26px;
+      border-radius: 999px;
+      border: none;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      padding: 16px 0;
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 40px;
+      font-size: 12px;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    @media (max-width: 960px) {
+      .layout { 
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+      }
+      .soat-header-container,
+      .footer-inner { padding: 0 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="soat-header">
+  <div class="soat-header-container">
+    <div class="soat-logo">
+      <img src="suraenlinea.png" alt="SURA en línea">
+    </div>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- Columna izquierda: pasos -->
+  <aside class="pasos-lateral">
+    <div class="paso-card">
+      <div class="paso-icon">
+        <div class="icon-doc"></div>
+      </div>
+      <div class="paso-titulo">Validación Identidad</div>
+    </div>
+    <div class="paso-card">
+      <div class="paso-icon inactivo">
+        <div class="icon-user"></div>
+      </div>
+      <div class="paso-titulo inactivo">Datos del Tomador</div>
+    </div>
+  </aside>
+
+  <!-- Columna derecha: contenido -->
+  <section class="contenido">
+    <div>
+      <h1 class="titulo-pagina">Validación de identidad</h1>
+      <p class="subtitulo-pagina">
+        Para iniciar el proceso de validar identidad debes realizar los siguientes pasos:
+      </p>
+    </div>
+
+    <!-- Card tratado -->
+    <section class="card-tratado">
+      <div class="card-header">
+        <div class="card-header-icon">
+          <div class="card-header-icon-inner"></div>
+        </div>
+        <div class="card-header-text">
+          Autoriza la consulta de datos en centrales de riesgos y la verificación del documento de identidad
+        </div>
+      </div>
+
+      <div class="card-scroll">
+        <!-- Pega aquí el texto legal que ya tienes de SURA -->
+        <p>
+          Autorizo expresamente en nombre propio y los demás asegurados, bajo su encargo, a SURAMERICANA S.A en calidad de responsable, así como sus filiales, subsidiarias y vinculadas económicamente en Colombia y el exterior, el tratamiento de mis (nuestros) datos personales, incluso datos biométricos y de salud que son datos sensibles, para los fines necesarios relacionados con la prestación del servicio contratado, para consultar, adquirir y reportar datos personales con Centrales de Información y Riesgos con fines de prevención e fraudes, selección de riesgo, contacto contractual y comercial, y para ser contactado para el ofrecimiento de productos, así como para las demás finalidades contempladas en la Política de Privacidad disponible en 
+          <a href="https://www.segurossura.com.co/" target="_blank" rel="noopener noreferrer">www.segurossura.com.co</a>, donde se encuentran los canales para ejercer los derechos a actualizar, rectificar, conocer y suprimir la información.
+        </p>
+        <p>
+          De igual forma, para la prevención de fraude y el control SARLAFT, autorizo expresamente a Suramericana S.A. para (i) Hacer tratamiento de los correos electrónicos con la finalidad de prevenir el fraude, de tal forma que puedan ser procesados e identificar su antigüedad, dominio, asociación a redes sociales y reportes de actividades no usuales asociadas al correo electrónico. (ii) Hacer tratamiento de los datos de número celular para determinar si el mismo ha tenido portabilidad numérica o si sobre el mismo se ha realizado cambio de Sim. (iii) Acceder a los datos de portabilidad numérica que administran los operadores de telefonía celular, administrados por ellos directamente o a través de los terceros autorizados, y tratarlos de la forma expuesta.
+        </p>
+      </div>
+
+      <label class="card-check">
+        <input type="checkbox" id="aceptoTratamiento">
+        <span>
+          Autorizo el tratamiento de mis datos personales en los términos descritos anteriormente.
+        </span>
+      </label>
+    </section>
+
+    <!-- Card info -->
+    <section class="card-info">
+      Ingresarás a la siguiente pantalla donde continuaremos con el proceso de compra de tu SOAT. 
+      Podrás actualizar los datos del tomador antes de realizar el pago.
+    </section>
+
+    <div class="acciones">
+      <button type="button" class="btn-secundario" onclick="window.history.back()">Cancelar</button>
+      <button type="button" class="btn-primario" id="btnContinuar">Continuar</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>SURA &copy; 2026 - Todos los derechos reservados.</span>
+    <span>Este sitio es un demo de compra de SOAT en línea.</span>
+  </div>
+</footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const placa = params.get('placa') || '';
+  const valor = params.get('valor') || '';
+
+  const chk = document.getElementById('aceptoTratamiento');
+  const btnContinuar = document.getElementById('btnContinuar');
+
+  btnContinuar.addEventListener('click', () => {
+    if (!chk.checked) {
+      alert('Debes aceptar el tratamiento de datos para continuar.');
+      return;
+    }
+    window.location.href = `medios.html?placa=${encodeURIComponent(placa)}&valor=${encodeURIComponent(valor)}`;
+  });
+</script>
+
+</body>
+</html>

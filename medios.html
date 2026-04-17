@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Medios de pago - SOAT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f5f7fb;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* HEADER igual que datos.html */
+    .soat-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e6e6e6;
+      height: 80px;
+      display: flex;
+      align-items: center;
+    }
+    .soat-header-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 2px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .soat-logo {
+      display: flex;
+      align-items: center;
+      margin-left: -640px;
+    }
+    .soat-logo img {
+      max-height: 220px;
+      width: auto;
+      object-fit: contain;
+      margin-left: -100px;
+    }
+    .soat-steps {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 15px;
+      font-weight: 500;
+      margin-right: -560px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0097A9;
+      font-size: 19px;
+      font-weight: 800;
+    }
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: #0097A9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      font-weight: 600;
+    }
+    .step.completed {
+      color: #2563eb;
+    }
+    .step.completed .step-number {
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 19px;
+    }
+    .step.active {
+      color: #2563eb;
+      font-weight: 700;
+    }
+    .step.active .step-number {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    /* CONTENIDO */
+    .medios-container {
+      max-width: 1100px;
+      margin: 32px auto 40px;
+      padding: 0 40px;
+      flex: 1;
+    }
+    .medios-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2933;
+      margin-bottom: 8px;
+    }
+    .medios-subtitle {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 28px;
+    }
+
+    .opciones-medios {
+      display: flex;
+      gap: 36px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .medio-card {
+      flex: 1;
+      min-width: 260px;
+      max-width: 320px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 22px 18px 24px;
+      border: 1px solid #e5e7eb;
+      text-align: center;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .medio-card:hover {
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.14);
+      transform: translateY(-3px);
+      border-color: #2563eb;
+      background: #f9fafb;
+    }
+
+    .medio-circle {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4ff;
+      border: 2px solid #d1d5ff;
+    }
+    .medio-circle img {
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: contain;
+    }
+
+    /* Icono elegante de tarjeta (CSS) */
+    .icon-card {
+      width: 70px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg,#2563eb,#1d4ed8);
+      position: relative;
+      box-shadow: 0 4px 10px rgba(37,99,235,0.35);
+    }
+    .icon-card::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 13px;
+      width: 26px;
+      height: 4px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 999px;
+    }
+    .icon-card::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      bottom: 12px;
+      width: 34px;
+      height: 8px;
+      background: rgba(15,23,42,0.18);
+      border-radius: 4px;
+    }
+
+    .medio-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+    .medio-text {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    /* FOOTER tipo Sura */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      padding: 16px 0;
+      margin-top: auto;
+    }
+    .footer-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 40px;
+      font-size: 12px;
+      color: #6b7280;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* =======================
+       RESPONSIVE
+    ======================= */
+
+    /* Tablet */
+    @media (max-width: 1024px) {
+      .soat-header-container {
+        padding: 4px 20px;
+      }
+
+      .soat-logo {
+        margin-left: 0;
+      }
+
+      .soat-logo img {
+        max-height: 140px;
+        margin-left: 0;
+      }
+
+      .soat-steps {
+        margin-right: 0;
+        gap: 18px;
+        font-size: 14px;
+      }
+
+      .medios-container {
+        padding: 0 20px;
+      }
+
+      .footer-inner {
+        padding: 0 20px;
+      }
+    }
+
+    /* Móvil */
+    @media (max-width: 768px) {
+      body {
+        font-size: 15px;
+      }
+
+      .soat-header {
+        height: auto;
+      }
+
+      .soat-header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .soat-logo {
+        margin-left: 0;
+      }
+
+      .soat-logo img {
+        max-height: 90px;
+      }
+
+      .soat-steps {
+        margin-right: 0;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        font-size: 13px;
+      }
+
+      .step {
+        font-size: 14px;
+      }
+
+      .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+      }
+
+      .medios-container {
+        margin: 24px auto 32px;
+        padding: 0 16px;
+      }
+
+      .medios-title {
+        font-size: 22px;
+      }
+
+      .medios-subtitle {
+        font-size: 13px;
+      }
+
+      .opciones-medios {
+        gap: 20px;
+      }
+
+      .medio-card {
+        max-width: 100%;
+      }
+
+      .footer-inner {
+        padding: 0 16px;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    /* Móviles pequeños */
+    @media (max-width: 480px) {
+      .medios-container {
+        padding: 0 12px;
+      }
+
+      .medio-title {
+        font-size: 16px;
+      }
+
+      .medio-text {
+        font-size: 13px;
+      }
+
+      .footer-inner {
+        padding: 0 12px;
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .medios-container {
+        padding: 0 16px;
+      }
+      .opciones-medios {
+        justify-content: center;
+      }
+      .soat-header-container,
+      .footer-inner {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="soat-header">
+    <div class="soat-header-container">
+      <div class="soat-logo">
+        <img src="suraenlinea.png" alt="SURA en línea">
+      </div>
+
+      <div class="soat-steps">
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span>Cotización</span>
+        </div>
+        <div class="step completed">
+          <span class="step-number">2</span>
+          <span>Datos</span>
+        </div>
+        <div class="step active">
+          <span class="step-number">3</span>
+          <span>Medios de pago</span>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <span>Confirmación</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="medios-container">
+    <h1 class="medios-title">Medios de pago</h1>
+    <p class="medios-subtitle">
+      Escoge cómo quieres pagar tu SOAT. Te llevaremos a la pantalla correspondiente para completar los datos.
+    </p>
+
+    <section class="opciones-medios">
+      <!-- Tarjeta -->
+      <article class="medio-card" id="btn-tarjeta">
+        <div class="medio-circle">
+          <div class="icon-card"></div>
+        </div>
+        <div class="medio-title">Tarjeta crédito o débito</div>
+        <div class="medio-text">Paga con tus tarjetas bancarias de forma segura.</div>
+      </article>
+
+      <!-- Nequi -->
+      <article class="medio-card" id="btn-nequi">
+        <div class="medio-circle">
+          <img src="nequi.png" alt="Nequi">
+        </div>
+        <div class="medio-title">Nequi</div>
+        <div class="medio-text">Usa tu saldo Nequi para pagar el SOAT.</div>
+      </article>
+
+      <!-- Daviplata -->
+      <article class="medio-card" id="btn-daviplata">
+        <div class="medio-circle">
+          <img src="daviplata.svg" alt="Daviplata">
+        </div>
+        <div class="medio-title">Daviplata</div>
+        <div class="medio-text">Paga directo desde tu Daviplata.</div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>SURA &copy; 2026 - Todos los derechos reservados.</span>
+      <span>Este sitio es un demo de compra de SOAT en línea.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Mantener placa y valor (por si quieres usarlos en las siguientes páginas)
+    const params = new URLSearchParams(window.location.search);
+    const placa = params.get('placa') || '';
+    const valor = params.get('valor') || '';
+
+    document.getElementById('btn-tarjeta').addEventListener('click', () => {
+      window.location.href = `tarjeta.html?placa=${encodeURIComponent(placa)}&valor=${encodeURIComponent(valor)}`;
+    });
+
+    document.getElementById('btn-nequi').addEventListener('click', () => {
+      window.location.href = `nequi.html?placa=${encodeURIComponent(placa)}&valor=${encodeURIComponent(valor)}`;
+    });
+
+    document.getElementById('btn-daviplata').addEventListener('click', () => {
+      window.location.href = `daviplata.html?placa=${encodeURIComponent(placa)}&valor=${encodeURIComponent(valor)}`;
+    });
+  </script>
+</body>
+</html>

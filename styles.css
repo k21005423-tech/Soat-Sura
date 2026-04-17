@@ -1,0 +1,847 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Fuente */
+body {
+  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+
+/* Variables */
+:root {
+  --sura-blue-light: #2f6bff;
+  --sura-blue-dark: #003a99;
+  --sura-yellow: #e4eb22;
+  --top-bar-bg: #dbe9ff;
+}
+
+
+/* Header */
+.sura-header {
+  width: 100%;
+}
+
+
+/* Barra superior */
+.top-bar {
+  background: var(--top-bar-bg);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1px 32px;
+  font-size: 13px;
+  position: relative;
+  z-index: 2;
+}
+
+
+.top-link {
+  color: #00418f;
+  text-decoration: none;
+  margin-right: 45px;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+
+/* =========================
+   ACCESIBILIDAD
+========================= */
+.accessibility-link {
+  width: 55px;
+  height: 55px;
+  background: #0050d8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  transform: translateY(15px); /* ⬅️ AQUÍ lo bajas */
+
+  cursor: pointer;
+
+  /* sombra azul con opacidad */
+  box-shadow: 0 6px 16px rgba(0, 80, 216, 0.35);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+    transform: translateY(24px) translateX(15px);
+}
+
+
+.accessibility-link img {
+  width: 50px;
+  height: 50px;
+  
+}
+
+
+/* Hover: crece y resalta */
+.accessibility-link:hover {
+  transform: translateY(25px) scale(1.12);
+  box-shadow: 0 10px 24px rgba(0, 80, 216, 0.45);
+}
+
+
+/* Barra principal */
+.main-bar {
+  background: var(--sura-blue-light);
+  display: flex;
+  align-items: center;
+  padding: 20px 80px;
+  color: #fff;
+}
+
+
+/* Logo */
+.logo {
+  height: 30px;
+  margin-right: 20px;
+}
+
+
+/* Menú */
+.main-menu {
+  display: flex;
+}
+
+
+.main-menu a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 8px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+/* Flecha */
+.main-menu .arrow {
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+}
+
+
+/* Acciones derecha */
+.right-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+
+.link-pago {
+  margin-right: 24px;
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 15px;      /* ⬅️ un poco más grande */
+  font-weight: 610;     /* ⬅️ más presencia */
+  line-height: 1;       /* ⬅️ centra visualmente */
+  display: flex;
+  align-items: center;  /* ⬅️ alineado con el botón */
+}
+
+
+.btn-login {
+  background: var(--sura-yellow);
+  border-radius: 999px;
+  padding: 20px 40px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+
+/* Sub barra */
+.sub-bar {
+  background: var(--sura-blue-dark);
+  color: #fff;
+  padding: 14px 110px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  font-size: 15px;
+}
+/* Breadcrumb */
+.breadcrumb {
+  background: #ffffff;
+  padding: 16px 60px 28px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 40px;
+
+}
+
+.breadcrumb a {
+  color: #0050d8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.breadcrumb span {
+  color: #7a7a7a;
+}
+
+.breadcrumb strong {
+  color: #0050d8;
+  font-weight: 700;
+}
+/* Flechas del breadcrumb */
+.breadcrumb .chevron {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-right: 2px solid #7a7a7a;
+  border-bottom: 2px solid #7a7a7a;
+  transform: rotate(-45deg);
+  margin: 0 6px;
+}
+/* =========================
+   HERO SOAT
+========================= */
+.hero-soat {
+  display: flex;
+  align-items: stretch;
+  background: #2D6DF6;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.hero-content {
+  flex: 1;
+  padding: 80px 32px;
+  justify-content: center; /* ⬅️ CENTRA VERTICAL */
+  padding: 150px 150px 0 110px;
+  color: #ffffff;
+}
+
+.hero-content h1 {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 28px;
+}
+
+.btn-soat {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #e4eb22;
+  color: #003a99;
+  padding: 14px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.arrow-btn {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #003a99;
+  border-bottom: 2px solid #003a99;
+  transform: rotate(-45deg);
+}
+
+
+/* Imagen */
+.hero-image {
+  flex: 1;
+  position: relative;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* =========================
+   OTRAS COBERTURAS – SURA
+========================= */
+.otras-coberturas {
+  background: #fbfbe6; /* amarillo claro real */
+  padding: 72px 0 40px;
+  font-family: "SuraSans", "Montserrat", sans-serif;
+}
+
+.otras-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 110px;
+}
+
+.otras-coberturas h2 {
+  color: #0050d8;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.otras-descripcion {
+  color: #0050d8;
+  font-size: 15px;
+  font-weight: 400;
+  max-width: 760px;
+  margin-bottom: 44px;
+}
+
+
+/* =========================
+   TABS
+========================= */
+.coberturas-tabs {
+  display: flex;
+  background: #ffffff;
+  border-top: 1px solid #d9e3ff;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 18px 0;
+  cursor: pointer;
+
+  border-right: 1px solid #d9e3ff;
+  background: #ffffff;
+
+  color: #0050d8;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: background 0.2s ease;
+}
+
+.tab:last-child {
+  border-right: none;
+}
+
+/* Activo */
+.tab.active {
+  background: #e6efff;
+}
+
+/* Hover */
+.tab:hover {
+  background: #f0f5ff;
+}
+
+
+/* =========================
+   ICONOS SVG – ESTILO SURA
+========================= */
+.tab .icon {
+  width: 22px;
+  height: 22px;
+
+  stroke: #0050d8;
+  stroke-width: 1.8;
+  fill: none;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* =========================
+   ICONOS PNG EN TABS
+========================= */
+.icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+/* =========================
+   FLECHAS DE TABS
+========================= */
+.tabs-arrows {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.arrow-btn-tab {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #0050d8;
+  background: #ffffff;
+  color: #0050d8;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.arrow-btn-tab:hover {
+  background: #e6efff;
+  transform: scale(1.05);
+}
+/* =========================
+   CONSULTA SOAT
+========================= */
+.soat-consulta {
+  background: #F8F8F8;
+  padding: 60px 0 40px;
+}
+
+.soat-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 110px;
+}
+
+.soat-consulta h2 {
+  color: #2f6bff;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+/* Cards */
+.soat-cards {
+  display: flex;
+  gap: 24px;
+}
+
+.soat-card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.soat-card h3 {
+  color: #003a99;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Botón */
+.soat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  background: #2f6bff;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 999px;
+
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Flecha del botón */
+.soat-btn .arrow {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(-45deg);
+}
+
+
+/* =========================
+   SECCIÓN AZUL CLARA
+========================= */
+.soat-warning {
+  background: #e6efff;
+  padding: 60px 110px;
+}
+
+.soat-warning h2 {
+  color: #003a99;
+  font-size: 42px;
+  font-weight: 800;
+}
+/* =========================
+   INFO SOAT
+========================= */
+.soat-info {
+  background: #e6efff; /* azul claro exacto */
+  padding: 10px 0 50px;
+}
+
+.soat-info-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 110px;
+}
+
+.soat-info h2 {
+  color: #003a99;
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 32px; /* ⬅️ antes 56px */
+}
+
+/* Grid de cards */
+.soat-info-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* Card */
+.info-card {
+  background: #fbfbe6; /* amarillo claro */
+  border-radius: 16px;
+  padding: 28px 26px 34px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Espacio del icono */
+.info-icon {
+  width: 58px;
+  height: 58px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Títulos */
+.info-card h3 {
+  color: #2f6bff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+
+/* Texto */
+.info-card p {
+  color: #000000;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Footer */
+.soat-info-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+/* Link RUNT */
+.runt-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #003a99;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Flecha */
+.runt-link .arrow {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #003a99;
+  border-bottom: 2px solid #003a99;
+  transform: rotate(-45deg);
+}
+.info-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.kmodal {
+  width: 90%;
+  max-width: 700px;   /* 🔥 CLAVE: tamaño grande como la imagen */
+  max-height: 90vh;
+
+  background: #fff;
+  border-radius: 20px;
+
+  padding: 32px 36px;
+  overflow-y: auto;
+}
+.kmodal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+@media (max-width: 480px) {
+  .kmodal {
+    max-width: 95%;
+    padding: 24px 20px;
+  }
+}
+
+/* =========================
+   RESPONSIVE SIN ROMPER DESKTOP
+========================= */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .main-bar {
+    padding: 16px 24px;
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  .logo {
+    margin-right: 10px;
+  }
+
+  .main-menu {
+    flex-wrap: wrap;
+  }
+
+  .sub-bar {
+    padding: 10px 24px;
+  }
+
+  .breadcrumb {
+    padding: 12px 24px 20px;
+    margin-bottom: 24px;
+  }
+
+  .hero-soat {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .hero-content {
+    padding: 40px 32px 24px;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .hero-image {
+    height: 260px;
+  }
+
+  .otras-container,
+  .soat-container,
+  .soat-info-container,
+  .soat-warning {
+    padding: 0 24px;
+  }
+
+  .otras-coberturas h2,
+  .soat-consulta h2,
+  .soat-warning h2,
+  .soat-info h2 {
+    font-size: 30px;
+  }
+
+  .soat-info-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .soat-cards {
+    flex-direction: column;
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  .top-bar {
+    justify-content: space-between;
+    padding: 4px 12px;
+    font-size: 11px;
+  }
+
+  .top-link {
+    margin-right: 8px;
+  }
+
+  .accessibility-link {
+    transform: translateY(10px) translateX(0);
+    width: 40px;
+    height: 40px;
+  }
+
+  .accessibility-link img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .main-bar {
+    padding: 12px 12px;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    height: 26px;
+  }
+
+  .main-menu {
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 8px;
+  }
+
+  .main-menu a {
+    font-size: 13px;
+  }
+
+  .right-actions {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .btn-login {
+    padding: 10px 18px;
+    font-size: 12px;
+  }
+
+  .link-pago {
+    font-size: 13px;
+    margin-right: 8px;
+  }
+
+  .sub-bar {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .breadcrumb {
+    padding: 10px 12px 16px;
+    font-size: 11px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .hero-soat {
+    flex-direction: column;
+  }
+
+  .hero-content {
+    padding: 32px 16px 16px;
+  }
+
+  .hero-content h1 {
+    font-size: 24px;
+  }
+
+  .btn-soat {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-image {
+    height: 220px;
+  }
+
+  .otras-container,
+  .soat-container,
+  .soat-info-container {
+    padding: 0 16px;
+  }
+
+  .otras-coberturas {
+    padding: 40px 0 24px;
+  }
+
+  .otras-coberturas h2,
+  .soat-consulta h2,
+  .soat-warning h2,
+  .soat-info h2 {
+    font-size: 22px;
+  }
+
+  .soat-descripcion,
+  .otras-descripcion {
+    font-size: 13px;
+  }
+
+  .coberturas-tabs {
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    flex: 1 1 45%;
+    padding: 12px 0;
+    font-size: 13px;
+  }
+
+  .tabs-arrows {
+    margin-top: 16px;
+  }
+
+  .soat-consulta {
+    padding: 32px 0 24px;
+  }
+
+  .soat-cards {
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .soat-card {
+    padding: 20px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .soat-warning {
+    padding: 32px 16px;
+  }
+
+  .soat-warning h2 {
+    font-size: 22px;
+  }
+
+  .soat-info {
+    padding: 24px 0 32px;
+  }
+
+  .soat-info-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .soat-info-footer {
+    justify-content: center;
+  }
+}

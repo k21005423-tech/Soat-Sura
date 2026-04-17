@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Consultar SOAT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f5f7fb;
+    }
+
+    /* =========================
+       HEADER CONSULTAR SOAT
+    ========================= */
+    .soat-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e6e6e6;
+    }
+
+    .soat-header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .soat-logo {
+      max-height: 60px;
+      display: flex;
+      align-items: center;
+      margin-left: -20px;
+    }
+
+    .soat-logo img {
+      max-height: 200px;
+      width: auto;
+      object-fit: contain;
+      margin-left: -100px;
+    }
+
+    .soat-steps {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #7a7a7a;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .step-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #e6e6e6;
+      color: #7a7a7a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .step.active {
+      color: #0097a9;
+    }
+
+    .step.active .step-number {
+      background: #0097a9;
+      color: #ffffff;
+    }
+
+    /* =========================
+       CONTENIDO PLACEHOLDER
+    ========================= */
+    .page-content {
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    /* =========================
+       MODAL (TAMAÑO GRANDE)
+    ========================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      width: 90%;
+      max-width: 700px;
+      max-height: 90vh;
+      padding: 36px 40px;
+      border-radius: 20px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .modal-box h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .modal-box ul {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      padding-left: 20px;
+    }
+
+    .modal-box li {
+      margin-bottom: 14px;
+    }
+
+    .modal-box a {
+      color: #2f6bff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .modal-btn {
+      display: block;
+      margin: 0 auto;
+      background: #e4eb22;
+      color: #003a99;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 44px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    /* =========================
+       MOBILE MODAL
+    ========================= */
+    @media (max-width: 480px) {
+      .modal-box {
+        padding: 28px 22px;
+        max-width: 95%;
+      }
+    }
+
+    /* =========================
+       HERO FINAL (CARD CENTRADA)
+    ========================= */
+    .soat-hero {
+      background-color: #2f6bff;
+      background-image: url("banner.png");
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-size: 65% auto;
+      min-height: 500px;
+      display: flex;
+    }
+
+    .soat-hero-content {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    /* CONTENEDOR DEL ÁREA AZUL DERECHA */
+    .hero-box {
+      background: #ffffff;
+      padding: 32px 36px;
+      border-radius: 16px;
+      width: 360px;
+      align-items: center;
+      text-align: center;
+      margin-right: 400px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+    }
+
+    .hero-box h2 {
+      font-size: 25px;
+      font-weight: 1000;
+      color: #2f6bff;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+
+    .hero-box label {
+      font-size: 14px;
+      color: #555;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .hero-box input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .hero-box button {
+      width: 100%;
+      background: #e4eb22;
+      color: #003a99;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 0;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* =========================
+       MOBILE HERO
+    ========================= */
+    @media (max-width: 900px) {
+      .soat-hero {
+        background-size: cover;
+        background-position: center top;
+      }
+
+      .soat-hero-content {
+        justify-content: center;
+      }
+
+      .hero-box {
+        margin-right: 0;
+      }
+    }
+
+    .hero-box label {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+
+    .hero-box input,
+    .hero-box button {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* =========================
+       SECCIÓN INFO AZUL
+    ========================= */
+    .soat-info {
+      background: #2f6bff;
+      color: #ffffff;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+
+    .soat-info-top {
+      background: #e4eb22;
+      color: #003a99;
+      text-align: center;
+      font-size: 14px;
+      padding: 12px 16px;
+    }
+
+    .soat-info-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 32px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .info-block {
+      flex: 1;
+      text-align: center;
+    }
+
+    .info-block h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .info-block p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e6ecff;
+    }
+
+    .info-divider {
+      width: 1px;
+      background: rgba(255,255,255,0.3);
+      height: 120px;
+      align-self: center;
+    }
+
+    /* =========================
+       FOOTER OSCURO
+    ========================= */
+    .soat-footer {
+      background: #003a99;
+      color: #e6ecff;
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 32px 32px 24px;
+      text-align: center;
+    }
+
+    .soat-footer p {
+      max-width: 1200px;
+      margin: 0 auto 16px;
+    }
+
+    .footer-legal {
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #b9c9ff;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .footer-links span {
+      color: #b9c9ff;
+    }
+
+    /* =========================
+       RESPONSIVE INFO
+    ========================= */
+    @media (max-width: 900px) {
+      .soat-info-content {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .info-divider {
+        display: none;
+      }
+    }
+
+    .hero-btn {
+      display: block;
+      width: 100%;
+      margin-top: 18px;
+      background: #e4eb22;
+      color: #003a99;
+      text-align: center;
+      text-decoration: none;
+      padding: 14px 0;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Inter', Arial, sans-serif;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* ============================================
+       EXTRA RESPONSIVE SIN ROMPER EL ESCRITORIO
+    ============================================ */
+
+    /* Tablets */
+    @media (max-width: 1024px) {
+      .soat-header-container {
+        padding: 12px 16px;
+      }
+
+      .soat-logo {
+        margin-left: 0;
+      }
+
+      .soat-logo img {
+        margin-left: 0;
+        max-height: 120px;
+      }
+
+      .soat-steps {
+        gap: 16px;
+      }
+
+      .soat-hero-content {
+        padding: 0 16px;
+      }
+
+      .hero-box {
+        margin-right: 80px;
+      }
+
+      .soat-info-content {
+        padding: 40px 16px;
+      }
+
+      .soat-footer {
+        padding: 24px 16px 20px;
+      }
+    }
+
+    /* Móviles */
+    @media (max-width: 600px) {
+      /* Header */
+      .soat-header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .soat-logo img {
+        max-height: 80px;
+      }
+
+      .soat-steps {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        row-gap: 8px;
+      }
+
+      .step {
+        font-size: 12px;
+      }
+
+      .step-number {
+        width: 26px;
+        height: 26px;
+        font-size: 16px;
+      }
+
+      /* Hero */
+      .soat-hero {
+        min-height: auto;
+        background-size: cover;
+        background-position: center;
+        padding: 32px 0;
+      }
+
+      .soat-hero-content {
+        padding: 0 16px;
+        justify-content: center;
+      }
+
+      .hero-box {
+        width: 100%;
+        max-width: 360px;
+        margin-right: 0;
+        padding: 24px 20px;
+      }
+
+      .hero-box h2 {
+        font-size: 20px;
+      }
+
+      /* Info sección */
+      .soat-info-top {
+        font-size: 13px;
+        padding: 10px 12px;
+      }
+
+      .soat-info-content {
+        padding: 32px 16px;
+      }
+
+      .info-block h3 {
+        font-size: 18px;
+      }
+
+      .info-block p {
+        font-size: 13px;
+      }
+
+      /* Footer */
+      .soat-footer {
+        padding: 24px 16px 16px;
+        font-size: 11px;
+      }
+
+      .soat-footer p {
+        margin-bottom: 12px;
+      }
+
+      .footer-links {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="soat-header">
+    <div class="soat-header-container">
+      <div class="soat-logo">
+        <img src="suraenlinea.png" alt="SURA en línea">
+      </div>
+
+      <div class="soat-steps">
+        <div class="step active">
+          <span class="step-number">1</span>
+          <span>Cotización</span>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <span>Datos</span>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <span>Validación</span>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <span>Pago</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="soat-hero">
+    <div class="soat-hero-content">
+      <div class="hero-box">
+        <h2>Cotiza y compra<br>tu SOAT<br>con el 50% de descuento </h2>
+
+        <label>Ingresa el número de tu placa</label>
+        <input id="inputPlaca" type="text" placeholder="Ej: ABC000">
+
+        <!-- Botón que redirige a datos.html con la placa -->
+        <button type="button" class="hero-btn" id="btnCotizar">Cotizar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       SECCIÓN INFORMACIÓN
+  ========================= -->
+  <section class="soat-info">
+    <div class="soat-info-top">
+      suraenlínea.com se está transformando en sura.co. 
+      <strong>¡Continúa con tu compra tranquilo!</strong>
+    </div>
+
+    <div class="soat-info-content">
+      <div class="info-block">
+        <h3>Fácil y simple</h3>
+        <p>
+          Navegarás de forma más fácil y rápida, encontrando lo que necesitas
+          con solo unos clics
+        </p>
+      </div>
+
+      <div class="info-divider"></div>
+
+      <div class="info-block">
+        <h3>Tu seguridad es lo primero</h3>
+        <p>
+          Tenemos las últimas medidas de seguridad para proteger tu información.
+          Tú tranquilo, tus datos están protegidos
+        </p>
+      </div>
+
+      <div class="info-divider"></div>
+
+      <div class="info-block">
+        <h3>Tu seguro a tu medida</h3>
+        <p>
+          ¡Ahora podrás ajustar tus coberturas y proteger lo que más valoras!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+  <footer class="soat-footer">
+    <p>
+      Para resolver dudas, comentarios y sugerencias, comunícate a la línea de atención
+      en Medellín al 604 4378888, en Bogotá al 601 4278888 y en Cali al 602 4378888;
+      al 01 8000 51 8888 en el resto del país o al #8888 sin costo desde tu celular.
+      Se recomienda ver esta página con Internet Explorer 10 (o versiones superiores),
+      Mozilla Firefox o Google Chrome a una resolución mínima de 1024 x 768.
+    </p>
+
+    <p class="footer-legal">
+      Copyright © 2014. SURA, una marca Suramericana.
+      Todos los derechos reservados.
+    </p>
+
+    <div class="footer-links">
+      <a href="#">Políticas de uso y seguridad</a>
+      <span>|</span>
+      <a href="#">Políticas de Privacidad Ley de Datos Personales</a>
+      <span>|</span>
+      <a href="#">Empresas Relacionadas</a>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalSoat">
+    <div class="modal-box">
+      <button class="modal-close" id="closeModal">✕</button>
+
+      <h3>Antes de comprar tu SOAT, es importante que sepas:</h3>
+
+      <ul>
+        <li>Por este medio se expide el SOAT para los vehículos matriculados en Colombia.</li>
+        <li>
+          Los únicos medios de pago habilitados y autorizados son PSE y botón Bancolombia.
+          Si alguien te contacta por WhatsApp para pagar o realizar otro proceso, no caigas.
+        </li>
+        <li>
+          Luego de que hayas comprado la póliza, espera 24 horas y verifica que haya quedado cargada en el RUNT.
+        </li>
+        <li>
+          Si no puedes comprar de forma digital, programa una cita en el punto físico más cercano.
+        </li>
+      </ul>
+
+      <button class="modal-btn" id="btnEntendido">ENTENDIDO</button>
+    </div>
+  </div>
+
+  <script>
+    // Lógica del modal
+    const modal = document.getElementById('modalSoat');
+    const btnEntendido = document.getElementById('btnEntendido');
+    const btnCerrar = document.getElementById('closeModal');
+
+    function cerrarModal() {
+      modal.style.display = 'none';
+    }
+
+    btnEntendido.addEventListener('click', cerrarModal);
+    btnCerrar.addEventListener('click', cerrarModal);
+
+    // Lógica del botón Cotizar: envía la placa a datos.html
+    const btnCotizar = document.getElementById('btnCotizar');
+    const inputPlaca = document.getElementById('inputPlaca');
+
+    btnCotizar.addEventListener('click', () => {
+      const placa = (inputPlaca.value || '').trim();
+
+      if (!placa) {
+        alert('Por favor ingresa la placa');
+        return;
+      }
+
+      // Redirige a datos.html con la placa en la querystring
+      window.location.href = 'datos.html?placa=' + encodeURIComponent(placa.toUpperCase());
+    });
+  </script>
+
+</body>
+</html>
